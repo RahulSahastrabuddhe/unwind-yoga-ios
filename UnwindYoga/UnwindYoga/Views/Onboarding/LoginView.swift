@@ -152,7 +152,7 @@ struct LoginView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $navigateToHome) {
-            HomeView()
+            MainTabView()
                 .environmentObject(authService)
         }
         .alert("Error", isPresented: $showError) {

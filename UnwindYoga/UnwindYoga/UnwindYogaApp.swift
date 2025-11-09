@@ -14,7 +14,7 @@ struct UnwindYogaApp: App {
     var body: some Scene {
         WindowGroup {
             if authService.isAuthenticated {
-                HomeView()
+                MainTabView()
                     .environmentObject(authService)
             } else {
                 WelcomeView()
