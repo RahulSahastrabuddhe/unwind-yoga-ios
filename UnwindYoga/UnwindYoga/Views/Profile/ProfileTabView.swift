@@ -26,12 +26,6 @@ struct ProfileTabView: View {
                                 .foregroundColor(Theme.Colors.textPrimary)
                             
                             Spacer()
-                            
-                            NavigationLink(destination: SettingsView()) {
-                                Image(systemName: "gearshape")
-                                    .font(.title3)
-                                    .foregroundColor(Theme.Colors.textPrimary)
-                            }
                         }
                         .padding(.horizontal, Theme.Spacing.lg)
                         .padding(.top, Theme.Spacing.lg)

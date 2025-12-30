@@ -39,20 +39,6 @@ struct HomeTabView: View {
                             }
                             
                             Spacer()
-                            
-                            HStack(spacing: Theme.Spacing.md) {
-                                Button(action: {}) {
-                                    Image(systemName: "gearshape")
-                                        .font(.title3)
-                                        .foregroundColor(Theme.Colors.textPrimary)
-                                }
-                                
-                                Button(action: {}) {
-                                    Image(systemName: "bell")
-                                        .font(.title3)
-                                        .foregroundColor(Theme.Colors.textPrimary)
-                                }
-                            }
                         }
                         .padding(.horizontal, Theme.Spacing.lg)
                         .padding(.top, Theme.Spacing.md)

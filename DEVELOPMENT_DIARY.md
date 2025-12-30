@@ -510,4 +510,36 @@
 
 ---
 
-*Last Updated: November 9, 2025, 4:05 PM*
+## December 30, 2025 - Navigation & Settings Implementation
+
+### What We Accomplished
+- Fixed duplicate `SettingsRow` declaration issue in `ProfileTabView`
+- Created a dedicated `SettingsRow` component in the Components folder
+- Implemented proper navigation for all settings items in the Profile tab
+- Added `TermsOfUseView` with comprehensive terms and conditions
+- Fixed logout functionality in `ProfileTabView`
+- Ensured all navigation links are working correctly
+- Pushed all changes to GitHub repository
+
+### Technical Details
+- **Files Modified**:
+  - `ProfileTabView.swift`: Fixed duplicate view and improved navigation
+  - `SettingsView.swift`: Updated to use the new `SettingsRow` component
+  - `TermsOfUseView.swift`: Created with formatted terms and conditions
+  - `SettingsRow.swift`: Created as a reusable component
+
+- **Key Fixes**:
+  - Resolved build errors related to duplicate view declarations
+  - Improved code organization by moving reusable components to the Components folder
+  - Ensured consistent styling across all settings screens
+
+### Next Steps
+- [ ] Implement remaining settings screens (Account, Notifications, Privacy, etc.)
+- [ ] Add user profile editing functionality
+- [ ] Implement notification preferences
+- [ ] Add dark mode support
+- [ ] Continue testing and fixing any UI/UX issues
+
+---
+
+*Last Updated: December 30, 2025, 6:55 PM*

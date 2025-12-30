@@ -17,6 +17,7 @@ struct YogaPose: Identifiable, Codable, Hashable {
     let duration: Int // in seconds
     let category: Category
     let imageName: String
+    let videoName: String?
     
     enum Difficulty: String, Codable, CaseIterable {
         case beginner = "Beginner"
@@ -35,7 +36,16 @@ struct YogaPose: Identifiable, Codable, Hashable {
         case restorative = "Restorative"
     }
     
-    init(id: UUID = UUID(), name: String, sanskritName: String, description: String, benefits: [String], difficulty: Difficulty, duration: Int, category: Category, imageName: String = "placeholder") {
+    init(id: UUID = UUID(), 
+         name: String, 
+         sanskritName: String, 
+         description: String, 
+         benefits: [String], 
+         difficulty: Difficulty, 
+         duration: Int, 
+         category: Category, 
+         imageName: String = "placeholder",
+         videoName: String? = nil) {
         self.id = id
         self.name = name
         self.sanskritName = sanskritName
@@ -45,6 +55,7 @@ struct YogaPose: Identifiable, Codable, Hashable {
         self.duration = duration
         self.category = category
         self.imageName = imageName
+        self.videoName = videoName
     }
 }
 
@@ -58,7 +69,8 @@ extension YogaPose {
             benefits: ["Improves posture", "Strengthens thighs", "Increases awareness"],
             difficulty: .beginner,
             duration: 30,
-            category: .standing
+            category: .standing,
+            videoName: "mountain_pose"
         ),
         YogaPose(
             name: "Downward-Facing Dog",
@@ -67,7 +79,8 @@ extension YogaPose {
             benefits: ["Stretches hamstrings", "Strengthens arms", "Energizes body"],
             difficulty: .beginner,
             duration: 60,
-            category: .inversion
+            category: .inversion,
+            videoName: "downward_dog"
         ),
         YogaPose(
             name: "Warrior I",
@@ -76,7 +89,8 @@ extension YogaPose {
             benefits: ["Strengthens legs", "Opens hips", "Builds confidence"],
             difficulty: .beginner,
             duration: 45,
-            category: .standing
+            category: .standing,
+            videoName: "warrior_1"
         ),
         YogaPose(
             name: "Warrior II",
@@ -85,7 +99,8 @@ extension YogaPose {
             benefits: ["Strengthens legs", "Opens hips", "Improves balance"],
             difficulty: .beginner,
             duration: 45,
-            category: .standing
+            category: .standing,
+            videoName: "warrior_2"
         ),
         YogaPose(
             name: "Tree Pose",
@@ -94,7 +109,8 @@ extension YogaPose {
             benefits: ["Improves balance", "Strengthens legs", "Enhances focus"],
             difficulty: .beginner,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: "tree_pose"
         ),
         YogaPose(
             name: "Child's Pose",

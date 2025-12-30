@@ -174,15 +174,27 @@ struct PoseCard: View {
     
     var body: some View {
         HStack(spacing: Theme.Spacing.md) {
-            // Pose Icon/Image
-            ZStack {
-                Circle()
-                    .fill(Theme.Colors.primary.opacity(0.1))
-                    .frame(width: 60, height: 60)
+            // Pose Icon/Image with Video Indicator
+            ZStack(alignment: .bottomTrailing) {
+                ZStack {
+                    Circle()
+                        .fill(Theme.Colors.primary.opacity(0.1))
+                        .frame(width: 60, height: 60)
+                    
+                    Image(systemName: "figure.yoga")
+                        .font(.title2)
+                        .foregroundColor(Theme.Colors.primary)
+                }
                 
-                Image(systemName: "figure.yoga")
-                    .font(.title2)
-                    .foregroundColor(Theme.Colors.primary)
+                // Video Indicator
+                if let videoName = pose.videoName, !videoName.isEmpty {
+                    Image(systemName: "play.circle.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(Theme.Colors.primary)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .offset(x: 5, y: 5)
+                }
             }
             
             // Pose Info

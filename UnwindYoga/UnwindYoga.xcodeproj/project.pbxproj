@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		C116F62B2F0481B90097136C /* chair_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = chair_pose.mp4; sourceTree = "<group>"; };
+		C116F62C2F0481B90097136C /* half_moon_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = half_moon_pose.mp4; sourceTree = "<group>"; };
+		C116F62D2F0481B90097136C /* plow_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = plow_pose.mp4; sourceTree = "<group>"; };
+		C116F62E2F0481B90097136C /* shoulder_stand.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = shoulder_stand.mp4; sourceTree = "<group>"; };
+		C116F62F2F0481B90097136C /* standing_forward_fold.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = standing_forward_fold.mp4; sourceTree = "<group>"; };
+		C116F6302F0481B90097136C /* sun_salutation_vinyasa.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sun_salutation_vinyasa.mp4; sourceTree = "<group>"; };
+		C116F6312F0481B90097136C /* three_legged_downward_dog_to_cobra.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = three_legged_downward_dog_to_cobra.mp4; sourceTree = "<group>"; };
+		C116F6322F0481B90097136C /* tree_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tree_pose.mp4; sourceTree = "<group>"; };
+		C116F6332F0481B90097136C /* triangle_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = triangle_pose.mp4; sourceTree = "<group>"; };
+		C116F6342F0481B90097136C /* vinyasa_flow.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = vinyasa_flow.mp4; sourceTree = "<group>"; };
 		C1B25A492EC0D798007C5ADA /* UnwindYoga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnwindYoga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,9 +39,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C116F6292F047FCF0097136C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C116F62A2F0480120097136C /* Videos */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		C116F62A2F0480120097136C /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				C116F62B2F0481B90097136C /* chair_pose.mp4 */,
+				C116F62C2F0481B90097136C /* half_moon_pose.mp4 */,
+				C116F62D2F0481B90097136C /* plow_pose.mp4 */,
+				C116F62E2F0481B90097136C /* shoulder_stand.mp4 */,
+				C116F62F2F0481B90097136C /* standing_forward_fold.mp4 */,
+				C116F6302F0481B90097136C /* sun_salutation_vinyasa.mp4 */,
+				C116F6312F0481B90097136C /* three_legged_downward_dog_to_cobra.mp4 */,
+				C116F6322F0481B90097136C /* tree_pose.mp4 */,
+				C116F6332F0481B90097136C /* triangle_pose.mp4 */,
+				C116F6342F0481B90097136C /* vinyasa_flow.mp4 */,
+			);
+			path = Videos;
+			sourceTree = "<group>";
+		};
 		C1B25A402EC0D798007C5ADA = {
 			isa = PBXGroup;
 			children = (
+				C116F6292F047FCF0097136C /* Assets */,
 				C1B25A4B2EC0D798007C5ADA /* UnwindYoga */,
 				C1B25A4A2EC0D798007C5ADA /* Products */,
 			);

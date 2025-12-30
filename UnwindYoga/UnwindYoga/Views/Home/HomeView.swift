@@ -17,6 +17,8 @@ struct HomeView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    @State private var isShowingDailySession = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -40,29 +42,88 @@ struct HomeView: View {
                             }
                             
                             Spacer()
-                            
-                            HStack(spacing: Theme.Spacing.md) {
-                                NavigationLink(destination: NotificationsView()) {
-                                    Image(systemName: "bell")
-                                        .font(.title3)
-                                        .foregroundColor(Theme.Colors.textPrimary)
-                                }
-                                
-                                Button(action: {}) {
-                                    Image(systemName: "gearshape")
-                                        .font(.title3)
-                                        .foregroundColor(Theme.Colors.textPrimary)
-                                }
-                            }
                         }
                         .padding(.horizontal, Theme.Spacing.lg)
                         .padding(.top, Theme.Spacing.md)
                         
                         // Daily Session Card
-                        if let dailySession = sessions.first {
-                            DailySessionCard(session: dailySession)
-                                .padding(.horizontal, Theme.Spacing.lg)
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Image(systemName: "flame.fill")
+                                    .foregroundColor(.orange)
+                                Text("Daily Yoga Session")
+                                    .font(.headline)
+                                Spacer()
+                                Text("\(YogaPose.samplePoses.filter { $0.difficulty == .beginner }.count) Poses")
+                                    .font(.caption)
+                                    .padding(6)
+                                    .background(Theme.Colors.primary.opacity(0.1))
+                                    .cornerRadius(8)
+                            }
+                            
+                            Text("A perfect sequence for beginners to improve flexibility and strength")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                            
+                            HStack(spacing: 12) {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Image(systemName: "clock")
+                                            .foregroundColor(Theme.Colors.primary)
+                                        Text("\(YogaPose.samplePoses.filter { $0.difficulty == .beginner }.reduce(0) { $0 + $1.duration } / 60) min")
+                                            .font(.caption)
+                                    }
+                                    
+                                    HStack {
+                                        Image(systemName: "figure.walk")
+                                            .foregroundColor(Theme.Colors.primary)
+                                        Text("Beginner Level")
+                                            .font(.caption)
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    isShowingDailySession = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "play.fill")
+                                            .font(.caption)
+                                        Text("Start")
+                                            .font(.subheadline)
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(Theme.Colors.primary)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .background(
+                                    NavigationLink("", destination: DailySessionView().navigationBarBackButtonHidden(true), isActive: $isShowingDailySession)
+                                        .opacity(0)
+                                )
+                            }
+                            .padding(.top, 8)
                         }
+                        .padding()
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Theme.Colors.primary.opacity(0.05), Theme.Colors.primary.opacity(0.1)]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .cornerRadius(16)
+                        .padding(.horizontal)
+                        .shadow(
+                            color: Theme.Shadow.small.color,
+                            radius: Theme.Shadow.small.radius,
+                            x: Theme.Shadow.small.x,
+                            y: Theme.Shadow.small.y
+                        )
                         
                         // Browse More Button
                         Button(action: {
