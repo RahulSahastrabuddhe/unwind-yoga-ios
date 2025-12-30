@@ -15,6 +15,7 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             // Home Tab
             HomeTabView()
+                .environmentObject(authService)
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 0 ? "house.fill" : "house")
@@ -51,6 +52,7 @@ struct MainTabView: View {
             
             // Profile Tab
             ProfileTabView()
+                .environmentObject(authService)
                 .tabItem {
                     VStack {
                         Image(systemName: selectedTab == 3 ? "person.fill" : "person")

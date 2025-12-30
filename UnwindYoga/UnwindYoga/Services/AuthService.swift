@@ -60,6 +60,13 @@ class AuthService: ObservableObject {
         UserDefaults.standard.removeObject(forKey: userDefaultsKey)
     }
     
+    func continueAsGuest() {
+        let guestUser = User(email: "guest@unwindyoga.app", name: "Guest User")
+        currentUser = guestUser
+        isAuthenticated = true
+        // Don't save guest user to UserDefaults
+    }
+    
     func updateUser(_ user: User) {
         currentUser = user
         saveUser(user)

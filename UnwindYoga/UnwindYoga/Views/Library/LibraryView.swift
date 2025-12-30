@@ -134,15 +134,37 @@ struct FilterChip: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            HapticManager.shared.light()
+            action()
+        }) {
             Text(title)
-                .font(Theme.Typography.subheadline)
+                .font(.system(size: 14, weight: isSelected ? .semibold : .medium))
                 .foregroundColor(isSelected ? .white : Theme.Colors.textPrimary)
-                .padding(.horizontal, Theme.Spacing.md)
-                .padding(.vertical, Theme.Spacing.sm)
-                .background(isSelected ? Theme.Colors.primary : Color.white)
-                .cornerRadius(Theme.CornerRadius.large)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(
+                    isSelected ?
+                    LinearGradient(
+                        colors: [Theme.Colors.primary.opacity(0.9), Theme.Colors.primary],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ) :
+                    LinearGradient(
+                        colors: [Color.white, Color.white],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .cornerRadius(20)
+                .shadow(
+                    color: isSelected ? Theme.Colors.primary.opacity(0.3) : Color.black.opacity(0.05),
+                    radius: isSelected ? 8 : 4,
+                    x: 0,
+                    y: isSelected ? 4 : 2
+                )
         }
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var authService = AuthService()
+    @StateObject private var oauthService = OAuthService()
     @State private var email = ""
     @State private var password = ""
     @State private var name = ""
@@ -16,6 +17,7 @@ struct LoginView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var navigateToHome = false
+    @State private var showForgotPassword = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -104,8 +106,8 @@ struct LoginView: View {
                         }
                         
                         HStack(spacing: Theme.Spacing.md) {
-                            SocialLoginButton(icon: "apple.logo", action: {})
-                            SocialLoginButton(icon: "g.circle.fill", action: {})
+                            SocialLoginButton(icon: "apple.logo", action: handleAppleSignIn)
+                            SocialLoginButton(icon: "g.circle.fill", action: handleGoogleSignIn)
                         }
                     }
                     .padding(.top, Theme.Spacing.lg)
@@ -113,12 +115,28 @@ struct LoginView: View {
                     // Forgot Password
                     if !isSignUpMode {
                         Button("Forgot Password?") {
-                            // Handle forgot password
+                            showForgotPassword = true
                         }
                         .font(Theme.Typography.body)
                         .foregroundColor(Theme.Colors.primary)
                         .padding(.top, Theme.Spacing.md)
                     }
+                    
+                    // Guest Mode
+                    Button(action: {
+                        authService.continueAsGuest()
+                        navigateToHome = true
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "person.crop.circle")
+                                .font(.body)
+                            
+                            Text("Continue as Guest")
+                                .font(Theme.Typography.body)
+                        }
+                        .foregroundColor(Theme.Colors.textSecondary)
+                    }
+                    .padding(.top, Theme.Spacing.lg)
                     
                     // Terms
                     if isSignUpMode {
@@ -154,6 +172,9 @@ struct LoginView: View {
         .navigationDestination(isPresented: $navigateToHome) {
             MainTabView()
                 .environmentObject(authService)
+        }
+        .navigationDestination(isPresented: $showForgotPassword) {
+            ForgotPasswordView()
         }
         .alert("Error", isPresented: $showError) {
             Button("OK", role: .cancel) {}
@@ -194,6 +215,38 @@ struct LoginView: View {
                 navigateToHome = true
             } else {
                 errorMessage = "Invalid email or password"
+                showError = true
+            }
+        }
+    }
+    
+    // MARK: - OAuth Handlers
+    
+    private func handleAppleSignIn() {
+        oauthService.signInWithApple { result in
+            switch result {
+            case .success(let userData):
+                // Create user with OAuth data
+                if authService.signUp(email: userData.email, password: "oauth_apple", name: userData.name) {
+                    navigateToHome = true
+                }
+            case .failure(let error):
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+    
+    private func handleGoogleSignIn() {
+        oauthService.signInWithGoogle { result in
+            switch result {
+            case .success(let userData):
+                // Create user with OAuth data
+                if authService.signUp(email: userData.email, password: "oauth_google", name: userData.name) {
+                    navigateToHome = true
+                }
+            case .failure(let error):
+                errorMessage = error.localizedDescription
                 showError = true
             }
         }

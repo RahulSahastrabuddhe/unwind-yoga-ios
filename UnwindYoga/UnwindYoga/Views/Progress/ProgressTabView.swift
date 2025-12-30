@@ -12,6 +12,46 @@ struct ProgressTabView: View {
     @State private var weeklyGoal = 5
     @State private var completedSessions = 0
     
+    // Calendar state
+    @State private var selectedDate = Date()
+    @State private var currentMonth = 0
+    @State private var showWeekView = false
+    
+    // Sample completed sessions data
+    private let completedDates: [Date] = [
+        Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
+        Calendar.current.date(byAdding: .day, value: -3, to: Date())!,
+        Calendar.current.date(byAdding: .day, value: -5, to: Date())!
+    ]
+    
+    // Get current month dates
+    private func getCurrentMonth() -> Date {
+        let calendar = Calendar.current
+        guard let currentMonth = calendar.date(byAdding: .month, value: currentMonth, to: Date()) else { return Date() }
+        return currentMonth
+    }
+    
+    // Extract date
+    private func extractDate() -> [DateValue] {
+        let calendar = Calendar.current
+        let currentMonth = getCurrentMonth()
+        
+        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
+            let day = calendar.component(.day, from: date)
+            return DateValue(day: day, date: date)
+        }
+        
+        // Add offset to get the correct weekday (0 = Sunday, 1 = Monday, etc.)
+        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
+        let offset = firstWeekday - 1
+        
+        for _ in 0..<offset {
+            days.insert(DateValue(day: -1, date: Date()), at: 0)
+        }
+        
+        return days
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -49,27 +89,37 @@ struct ProgressTabView: View {
                                 // Weekly Goal Circle
                                 VStack(spacing: Theme.Spacing.md) {
                                     ZStack {
+                                        // Background circle
                                         Circle()
-                                            .stroke(Theme.Colors.primary.opacity(0.2), lineWidth: 12)
-                                            .frame(width: 150, height: 150)
+                                            .stroke(Theme.Colors.primary.opacity(0.15), lineWidth: 14)
+                                            .frame(width: 160, height: 160)
                                         
+                                        // Progress circle
                                         Circle()
                                             .trim(from: 0, to: CGFloat(completedSessions) / CGFloat(weeklyGoal))
-                                            .stroke(Theme.Colors.primary, style: StrokeStyle(lineWidth: 12, lineCap: .round))
-                                            .frame(width: 150, height: 150)
+                                            .stroke(
+                                                LinearGradient(
+                                                    colors: [Theme.Colors.primary.opacity(0.8), Theme.Colors.primary],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ),
+                                                style: StrokeStyle(lineWidth: 14, lineCap: .round)
+                                            )
+                                            .frame(width: 160, height: 160)
                                             .rotationEffect(.degrees(-90))
+                                            .animation(.spring(response: 0.6, dampingFraction: 0.8), value: completedSessions)
                                         
-                                        VStack(spacing: 4) {
+                                        VStack(spacing: 6) {
                                             Text("\(completedSessions)/\(weeklyGoal)")
-                                                .font(.system(size: 32, weight: .bold))
+                                                .font(.system(size: 36, weight: .bold))
                                                 .foregroundColor(Theme.Colors.textPrimary)
                                             
                                             Text("Weekly Goal")
-                                                .font(Theme.Typography.caption)
+                                                .font(.system(size: 13, weight: .medium))
                                                 .foregroundColor(Theme.Colors.textSecondary)
                                         }
                                     }
-                                    .padding(.vertical, Theme.Spacing.lg)
+                                    .padding(.vertical, Theme.Spacing.xl)
                                 }
                                 
                                 // Stats Grid
@@ -80,50 +130,96 @@ struct ProgressTabView: View {
                                 .padding(.horizontal, Theme.Spacing.lg)
                                 
                                 // Calendar Section
-                                VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+                                VStack(spacing: Theme.Spacing.md) {
+                                    // Header with month and navigation
                                     HStack {
-                                        Button(action: {}) {
-                                            Image(systemName: "chevron.left")
-                                                .foregroundColor(Theme.Colors.textPrimary)
-                                        }
+                                        Text(getCurrentMonth().toString("MMMM yyyy"))
+                                            .font(Theme.Typography.title3)
+                                            .fontWeight(.semibold)
                                         
                                         Spacer()
                                         
-                                        Text("September 2025")
-                                            .font(Theme.Typography.headline)
-                                            .foregroundColor(Theme.Colors.textPrimary)
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {}) {
-                                            Image(systemName: "chevron.right")
-                                                .foregroundColor(Theme.Colors.textPrimary)
+                                        HStack(spacing: 16) {
+                                            Button(action: { withAnimation { currentMonth -= 1 } }) {
+                                                Image(systemName: "chevron.left")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(Theme.Colors.textPrimary)
+                                            }
+                                            
+                                            Button("Today") {
+                                                withAnimation { currentMonth = 0 }
+                                            }
+                                            .font(.caption)
+                                            .foregroundColor(Theme.Colors.primary)
+                                            
+                                            Button(action: { withAnimation { currentMonth += 1 } }) {
+                                                Image(systemName: "chevron.right")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(Theme.Colors.textPrimary)
+                                            }
                                         }
                                     }
+                                    .padding(.horizontal, Theme.Spacing.lg)
                                     
-                                    // Week/Month Toggle
-                                    HStack(spacing: Theme.Spacing.sm) {
-                                        Text("Week")
-                                            .font(Theme.Typography.subheadline)
-                                            .foregroundColor(Theme.Colors.textSecondary)
-                                            .padding(.horizontal, Theme.Spacing.md)
-                                            .padding(.vertical, Theme.Spacing.xs)
-                                            .background(Color.white)
-                                            .cornerRadius(Theme.CornerRadius.small)
-                                        
-                                        Text("Month")
-                                            .font(Theme.Typography.subheadline)
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, Theme.Spacing.md)
-                                            .padding(.vertical, Theme.Spacing.xs)
-                                            .background(Theme.Colors.textPrimary)
-                                            .cornerRadius(Theme.CornerRadius.small)
+                                    // Weekday Header
+                                    HStack(spacing: 0) {
+                                        ForEach(["S", "M", "T", "W", "T", "F", "S"], id: \.self) { day in
+                                            Text(day)
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(Theme.Colors.textSecondary)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.vertical, 8)
+                                        }
                                     }
+                                    .padding(.horizontal, Theme.Spacing.lg)
                                     
-                                    // Calendar Grid (simplified)
-                                    CalendarView()
+                                    // Calendar Grid
+                                    VStack(spacing: 8) {
+                                        let columns = Array(repeating: GridItem(.flexible()), count: 7)
+                                        LazyVGrid(columns: columns, spacing: 8) {
+                                            ForEach(extractDate(), id: \.self) { value in
+                                                if value.day != -1 {
+                                                    let isToday = Calendar.current.isDateInToday(value.date)
+                                                    let isCompleted = completedDates.contains { Calendar.current.isDate($0, inSameDayAs: value.date) }
+                                                    let isCurrentMonth = Calendar.current.isDate(value.date, equalTo: getCurrentMonth(), toGranularity: .month)
+                                                    
+                                                    VStack(spacing: 4) {
+                                                        Text("\(value.day)")
+                                                            .font(.system(size: 14, weight: isToday ? .bold : .regular))
+                                                            .foregroundColor(
+                                                                isToday ? .white : 
+                                                                (isCompleted ? Theme.Colors.primary : 
+                                                                    (isCurrentMonth ? Theme.Colors.textPrimary : Theme.Colors.textSecondary))
+                                                            )
+                                                            .frame(width: 28, height: 28)
+                                                            .background(
+                                                                isToday ? 
+                                                                Circle().fill(Theme.Colors.primary) : 
+                                                                (isCompleted ? 
+                                                                    Circle().fill(Theme.Colors.primary.opacity(0.1)) : 
+                                                                    nil)
+                                                            )
+                                                            .opacity(isCurrentMonth ? 1 : 0.5)
+                                                        
+                                                        if isCompleted {
+                                                            Circle()
+                                                                .fill(Theme.Colors.primary)
+                                                                .frame(width: 4, height: 4)
+                                                        } else {
+                                                            Spacer().frame(height: 4)
+                                                        }
+                                                    }
+                                                    .frame(height: 40)
+                                                    .onTapGesture { selectedDate = value.date }
+                                                } else {
+                                                    Spacer().frame(height: 40)
+                                                }
+                                            }
+                                        }
+                                        .padding(.horizontal, Theme.Spacing.lg)
+                                    }
                                 }
-                                .padding(Theme.Spacing.lg)
+                                .padding(.vertical, Theme.Spacing.lg)
                                 .background(Color.white)
                                 .cornerRadius(Theme.CornerRadius.large)
                                 .padding(.horizontal, Theme.Spacing.lg)

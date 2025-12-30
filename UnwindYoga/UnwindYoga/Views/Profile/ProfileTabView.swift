@@ -27,7 +27,7 @@ struct ProfileTabView: View {
                             
                             Spacer()
                             
-                            Button(action: {}) {
+                            NavigationLink(destination: SettingsView()) {
                                 Image(systemName: "gearshape")
                                     .font(.title3)
                                     .foregroundColor(Theme.Colors.textPrimary)
@@ -84,27 +84,42 @@ struct ProfileTabView: View {
                         
                         // Settings List
                         VStack(spacing: 0) {
-                            SettingsRow(icon: "person.circle", title: "Account Settings", action: {})
+                            NavigationLink(destination: AccountSettingsView()) {
+                                SettingsRow(icon: "person.circle", title: "Account Settings")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                             
                             Divider()
                                 .padding(.leading, 60)
                             
-                            SettingsRow(icon: "bell.badge", title: "Notifications", action: {})
+                            NavigationLink(destination: NotificationsSettingsView()) {
+                                SettingsRow(icon: "bell.badge", title: "Notifications")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                             
                             Divider()
                                 .padding(.leading, 60)
                             
-                            SettingsRow(icon: "lock.shield", title: "Privacy & Security", action: {})
+                            NavigationLink(destination: PrivacySecurityView()) {
+                                SettingsRow(icon: "lock.shield", title: "Privacy & Security")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                             
                             Divider()
                                 .padding(.leading, 60)
                             
-                            SettingsRow(icon: "questionmark.circle", title: "Help & Support", action: {})
+                            NavigationLink(destination: HelpSupportView()) {
+                                SettingsRow(icon: "questionmark.circle", title: "Help & Support")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                             
                             Divider()
                                 .padding(.leading, 60)
                             
-                            SettingsRow(icon: "doc.text", title: "Terms of Use", action: {})
+                            NavigationLink(destination: TermsOfUseView()) {
+                                SettingsRow(icon: "doc.text", title: "Terms of Use")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         .background(Color.white)
                         .cornerRadius(Theme.CornerRadius.large)
@@ -118,12 +133,12 @@ struct ProfileTabView: View {
                                 .font(Theme.Typography.headline)
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 56)
-                                .background(Color.white)
+                                .padding()
+                                .background(Color.red.opacity(0.1))
                                 .cornerRadius(Theme.CornerRadius.medium)
+                                .padding(.horizontal, Theme.Spacing.lg)
+                                .padding(.vertical, Theme.Spacing.md)
                         }
-                        .padding(.horizontal, Theme.Spacing.lg)
-                        
                         Spacer(minLength: 100) // Extra space for tab bar
                     }
                 }
@@ -157,41 +172,6 @@ struct ProfileStat: View {
                 .foregroundColor(Theme.Colors.textSecondary)
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-// MARK: - Settings Row
-struct SettingsRow: View {
-    let icon: String
-    let title: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: Theme.Spacing.md) {
-                ZStack {
-                    Circle()
-                        .fill(Theme.Colors.primary.opacity(0.1))
-                        .frame(width: 40, height: 40)
-                    
-                    Image(systemName: icon)
-                        .font(.system(size: 18))
-                        .foregroundColor(Theme.Colors.primary)
-                }
-                
-                Text(title)
-                    .font(Theme.Typography.body)
-                    .foregroundColor(Theme.Colors.textPrimary)
-                
-                Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundColor(Theme.Colors.textSecondary)
-            }
-            .padding(.horizontal, Theme.Spacing.lg)
-            .padding(.vertical, Theme.Spacing.md)
-        }
     }
 }
 

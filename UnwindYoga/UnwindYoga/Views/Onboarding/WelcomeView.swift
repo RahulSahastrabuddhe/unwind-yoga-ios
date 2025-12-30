@@ -22,13 +22,23 @@ struct WelcomeView: View {
                 VStack(spacing: 0) {
                     Spacer()
                     
-                    // Hero Image/Icon
-                    Image(systemName: "figure.mind.and.body")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                        .foregroundColor(Theme.Colors.primary)
-                        .padding(.bottom, Theme.Spacing.xl)
+                    // Hero Image/Icon with animation
+                    ZStack {
+                        Circle()
+                            .fill(Theme.Colors.primary.opacity(0.1))
+                            .frame(width: 220, height: 220)
+                        
+                        Circle()
+                            .fill(Theme.Colors.primary.opacity(0.05))
+                            .frame(width: 260, height: 260)
+                        
+                        Image(systemName: "figure.mind.and.body")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .foregroundColor(Theme.Colors.primary)
+                    }
+                    .padding(.bottom, Theme.Spacing.xl)
                     
                     // Welcome Text
                     VStack(spacing: Theme.Spacing.md) {

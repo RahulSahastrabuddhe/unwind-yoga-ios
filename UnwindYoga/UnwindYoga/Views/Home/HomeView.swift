@@ -42,7 +42,7 @@ struct HomeView: View {
                             Spacer()
                             
                             HStack(spacing: Theme.Spacing.md) {
-                                Button(action: {}) {
+                                NavigationLink(destination: NotificationsView()) {
                                     Image(systemName: "bell")
                                         .font(.title3)
                                         .foregroundColor(Theme.Colors.textPrimary)
@@ -139,51 +139,78 @@ struct DailySessionCard: View {
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // Background gradient
+            // Background gradient with subtle pattern
             LinearGradient(
-                colors: [Theme.Colors.primary.opacity(0.8), Theme.Colors.primary],
+                colors: [Theme.Colors.primary.opacity(0.9), Theme.Colors.primary],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            .frame(height: 240)
+            .frame(height: 200)
             .cornerRadius(Theme.CornerRadius.large)
+            .shadow(
+                color: Theme.Colors.primary.opacity(0.3),
+                radius: 12,
+                x: 0,
+                y: 6
+            )
             
             // Content
-            VStack(alignment: .leading, spacing: Theme.Spacing.md) {
-                VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
-                    Text("Your Daily")
-                        .font(Theme.Typography.title2)
-                        .foregroundColor(.white)
+            VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Your Daily")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white.opacity(0.9))
+                        
+                        Text("Session")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundColor(.white)
+                    }
                     
-                    Text("Session")
-                        .font(Theme.Typography.title2)
-                        .foregroundColor(.white)
+                    Spacer()
+                    
+                    // Duration badge
+                    HStack(spacing: 4) {
+                        Image(systemName: "clock.fill")
+                            .font(.caption)
+                        Text("\(session.duration) min")
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.white.opacity(0.2))
+                    .cornerRadius(20)
                 }
-                
-                Text("\(session.duration) min")
-                    .font(Theme.Typography.title3)
-                    .foregroundColor(.white.opacity(0.9))
                 
                 Spacer()
                 
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        // Start session
-                    }) {
-                        Text("Start")
-                            .font(Theme.Typography.headline)
-                            .foregroundColor(Theme.Colors.primary)
-                            .frame(width: 120, height: 48)
-                            .background(Color.white)
-                            .cornerRadius(Theme.CornerRadius.medium)
+                // Session name
+                Text(session.name)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(.white.opacity(0.9))
+                    .lineLimit(1)
+                
+                // Start button
+                Button(action: {
+                    // Start session
+                }) {
+                    HStack {
+                        Image(systemName: "play.fill")
+                            .font(.system(size: 14))
+                        Text("Start Practice")
+                            .font(.system(size: 16, weight: .semibold))
                     }
+                    .foregroundColor(Theme.Colors.primary)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(Color.white)
+                    .cornerRadius(Theme.CornerRadius.medium)
                 }
             }
             .padding(Theme.Spacing.lg)
         }
-        .frame(height: 240)
+        .frame(height: 200)
     }
 }
 

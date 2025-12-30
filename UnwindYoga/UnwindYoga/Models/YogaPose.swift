@@ -158,6 +158,141 @@ extension YogaPose {
             difficulty: .beginner,
             duration: 300,
             category: .restorative
+        ),
+        YogaPose(
+            name: "Plank Pose",
+            sanskritName: "Phalakasana",
+            description: "Hold a push-up position with arms straight, body in a straight line from head to heels. Engage core and keep hips level. Builds full-body strength and stability.",
+            benefits: ["Strengthens core", "Builds arm strength", "Improves posture"],
+            difficulty: .beginner,
+            duration: 30,
+            category: .balancing
+        ),
+        YogaPose(
+            name: "Cat-Cow Pose",
+            sanskritName: "Marjaryasana-Bitilasana",
+            description: "On hands and knees, alternate between arching back (cow) and rounding spine (cat). Move with breath. Gentle warm-up that increases spinal flexibility.",
+            benefits: ["Increases flexibility", "Warms up spine", "Relieves back tension"],
+            difficulty: .beginner,
+            duration: 45,
+            category: .restorative
+        ),
+        YogaPose(
+            name: "Extended Side Angle",
+            sanskritName: "Utthita Parsvakonasana",
+            description: "From Warrior II, lower front arm to thigh or floor. Extend top arm over ear. Creates a long line from back foot to fingertips. Strengthens and stretches entire side body.",
+            benefits: ["Strengthens legs", "Stretches sides", "Improves stamina"],
+            difficulty: .intermediate,
+            duration: 45,
+            category: .standing
+        ),
+        YogaPose(
+            name: "Chair Pose",
+            sanskritName: "Utkatasana",
+            description: "Stand with feet together, bend knees as if sitting in a chair. Raise arms overhead. Keep weight in heels. Powerful pose that builds leg and core strength.",
+            benefits: ["Strengthens legs", "Tones core", "Builds endurance"],
+            difficulty: .beginner,
+            duration: 30,
+            category: .standing
+        ),
+        YogaPose(
+            name: "Camel Pose",
+            sanskritName: "Ustrasana",
+            description: "Kneel with knees hip-width apart. Place hands on lower back and arch backward. Advanced practitioners can reach for heels. Deep backbend that opens the heart.",
+            benefits: ["Opens chest", "Stretches hip flexors", "Energizes body"],
+            difficulty: .advanced,
+            duration: 30,
+            category: .backbend
+        ),
+        YogaPose(
+            name: "Boat Pose",
+            sanskritName: "Navasana",
+            description: "Sit with knees bent, lift feet off floor. Extend arms forward parallel to floor. For more challenge, straighten legs. Core-strengthening pose that builds balance.",
+            benefits: ["Strengthens core", "Improves balance", "Tones abs"],
+            difficulty: .intermediate,
+            duration: 30,
+            category: .balancing
+        ),
+        YogaPose(
+            name: "Warrior III",
+            sanskritName: "Virabhadrasana III",
+            description: "From standing, hinge forward and lift one leg behind you. Extend arms forward. Body forms a T-shape. Challenging balance pose that builds focus and strength.",
+            benefits: ["Improves balance", "Strengthens legs", "Enhances focus"],
+            difficulty: .advanced,
+            duration: 30,
+            category: .balancing
+        ),
+        YogaPose(
+            name: "Half Lord of the Fishes",
+            sanskritName: "Ardha Matsyendrasana",
+            description: "Sit with one leg bent, other leg crossed over. Twist torso toward bent knee, using arm for leverage. Detoxifying twist that improves spinal mobility.",
+            benefits: ["Improves digestion", "Increases spinal mobility", "Detoxifies organs"],
+            difficulty: .intermediate,
+            duration: 45,
+            category: .twist
+        ),
+        YogaPose(
+            name: "Legs Up the Wall",
+            sanskritName: "Viparita Karani",
+            description: "Lie on back with legs extended up a wall. Arms rest at sides. Gentle inversion that promotes relaxation and reduces swelling in legs.",
+            benefits: ["Reduces leg swelling", "Calms nervous system", "Relieves tired legs"],
+            difficulty: .beginner,
+            duration: 300,
+            category: .restorative
+        ),
+        YogaPose(
+            name: "Eagle Pose",
+            sanskritName: "Garudasana",
+            description: "Stand on one leg, wrap other leg around standing leg. Cross arms and wrap forearms. Challenging balance pose that opens shoulders and hips.",
+            benefits: ["Improves balance", "Opens shoulders", "Strengthens ankles"],
+            difficulty: .intermediate,
+            duration: 30,
+            category: .balancing
+        ),
+        YogaPose(
+            name: "Upward-Facing Dog",
+            sanskritName: "Urdhva Mukha Svanasana",
+            description: "From lying face down, press hands into floor and lift chest and thighs off ground. Only hands and tops of feet touch floor. Energizing backbend.",
+            benefits: ["Opens chest", "Strengthens arms", "Improves posture"],
+            difficulty: .intermediate,
+            duration: 30,
+            category: .backbend
+        ),
+        YogaPose(
+            name: "Happy Baby",
+            sanskritName: "Ananda Balasana",
+            description: "Lie on back, bring knees toward chest. Grab outside edges of feet and gently pull knees toward armpits. Rock side to side. Playful hip opener.",
+            benefits: ["Opens hips", "Releases lower back", "Calms mind"],
+            difficulty: .beginner,
+            duration: 60,
+            category: .restorative
+        ),
+        YogaPose(
+            name: "Revolved Triangle",
+            sanskritName: "Parivrtta Trikonasana",
+            description: "From standing, step one foot back. Twist torso and reach opposite hand to front foot. Other arm extends up. Challenging twist that improves balance.",
+            benefits: ["Improves balance", "Strengthens legs", "Detoxifies organs"],
+            difficulty: .advanced,
+            duration: 45,
+            category: .twist
+        ),
+        YogaPose(
+            name: "Sphinx Pose",
+            sanskritName: "Salamba Bhujangasana",
+            description: "Lie face down, prop upper body on forearms. Elbows under shoulders. Gentle backbend that strengthens spine and opens chest.",
+            benefits: ["Strengthens spine", "Opens chest", "Gentle backbend"],
+            difficulty: .beginner,
+            duration: 45,
+            category: .backbend
+        ),
+        YogaPose(
+            name: "Side Plank",
+            sanskritName: "Vasisthasana",
+            description: "From plank, shift weight to one hand and outer edge of foot. Stack feet and extend top arm up. Challenging balance that builds core and arm strength.",
+            benefits: ["Strengthens core", "Builds arm strength", "Improves balance"],
+            difficulty: .intermediate,
+            duration: 30,
+            category: .balancing
         )
     ]
 }
