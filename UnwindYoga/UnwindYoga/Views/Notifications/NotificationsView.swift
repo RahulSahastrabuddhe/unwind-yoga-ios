@@ -36,7 +36,9 @@ struct NotificationsView: View {
                 Section(footer: Text("We'll send you notifications about your yoga practice, reminders, and updates.")) {
                     Button("Test Notification") {
                         // In a real app, this would schedule a local notification
+                        #if DEBUG
                         print("Test notification would be triggered here")
+                        #endif
                     }
                 }
             }

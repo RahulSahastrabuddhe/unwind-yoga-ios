@@ -15,10 +15,14 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     
     private var player: AVPlayer? {
         guard let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") else {
+            #if DEBUG
             print("❌ Could not find video: \(videoName).mp4")
+            #endif
             return nil
         }
+        #if DEBUG
         print("✅ Loading video: \(videoName).mp4")
+        #endif
         let player = AVPlayer(url: url)
         player.actionAtItemEnd = .none
         return player
@@ -47,7 +51,9 @@ struct VideoPlayerView: UIViewControllerRepresentable {
             queue: .main
         ) { notification in
             if let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error {
+                #if DEBUG
                 print("❌ Playback failed: \(error.localizedDescription)")
+                #endif
             }
         }
         

@@ -12,6 +12,7 @@ struct CustomTextField: View {
     @Binding var text: String
     var isSecure: Bool = false
     var keyboardType: UIKeyboardType = .default
+    var textContentType: UITextContentType? = nil
     @State private var isSecureVisible: Bool = false
     
     var body: some View {
@@ -22,12 +23,17 @@ struct CustomTextField: View {
                         .font(Theme.Typography.body)
                         .foregroundColor(Theme.Colors.textPrimary)
                         .keyboardType(keyboardType)
+                        .textContentType(textContentType)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
                 } else {
                     TextField(placeholder, text: $text)
                         .font(Theme.Typography.body)
                         .foregroundColor(Theme.Colors.textPrimary)
                         .keyboardType(keyboardType)
-                        .autocapitalization(.none)
+                        .textContentType(textContentType)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
                 }
                 
                 if isSecure {

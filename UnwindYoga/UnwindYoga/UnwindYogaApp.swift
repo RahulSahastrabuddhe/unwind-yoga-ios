@@ -18,6 +18,7 @@ struct UnwindYogaApp: App {
                     .environmentObject(authService)
             } else {
                 WelcomeView()
+                    .environmentObject(authService)
             }
         }
     }

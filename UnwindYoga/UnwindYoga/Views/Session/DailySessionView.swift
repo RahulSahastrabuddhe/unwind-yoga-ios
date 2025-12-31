@@ -42,10 +42,12 @@ struct DailySessionView: View {
             // If we have 5 or more unique poses, just take the first 5
             result = Array(uniquePoses.shuffled().prefix(5))
         }
-        
+
+        #if DEBUG
         print("Selected poses:")
-        result.forEach { print("-\($0.name) (video: \($0.videoName ?? "none"))" )}
-        
+        result.forEach { print("-\($0.name) (video: \($0.videoName ?? "none"))") }
+        #endif
+
         return result
     }()
     
@@ -232,9 +234,11 @@ struct DailySessionView: View {
         withAnimation(.easeInOut(duration: 0.3)) {
             currentPoseIndex += 1
         }
-        
+
+        #if DEBUG
         // Log the current pose being played
         print("▶️ Now playing: \(sessionPoses[currentPoseIndex].name) (video: \(sessionPoses[currentPoseIndex].videoName ?? "none"))")
+        #endif
     }
     
     private func previousPose() {
@@ -243,9 +247,11 @@ struct DailySessionView: View {
         withAnimation(.easeInOut(duration: 0.3)) {
             currentPoseIndex -= 1
         }
-        
+
+        #if DEBUG
         // Log the current pose being played
         print("⏮ Now playing: \(sessionPoses[currentPoseIndex].name) (video: \(sessionPoses[currentPoseIndex].videoName ?? "none"))")
+        #endif
     }
 }
 

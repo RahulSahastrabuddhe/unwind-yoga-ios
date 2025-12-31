@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     @StateObject private var oauthService = OAuthService()
     @State private var email = ""
     @State private var password = ""
@@ -55,20 +55,23 @@ struct LoginView: View {
                         if isSignUpMode {
                             CustomTextField(
                                 placeholder: "Full Name",
-                                text: $name
+                                text: $name,
+                                textContentType: .name
                             )
                         }
                         
                         CustomTextField(
                             placeholder: "Email / Username",
                             text: $email,
-                            keyboardType: .emailAddress
+                            keyboardType: .emailAddress,
+                            textContentType: .emailAddress
                         )
                         
                         CustomTextField(
                             placeholder: "Password",
                             text: $password,
-                            isSecure: true
+                            isSecure: true,
+                            textContentType: isSignUpMode ? .newPassword : .password
                         )
                     }
                     .padding(.top, Theme.Spacing.lg)
@@ -107,7 +110,6 @@ struct LoginView: View {
                         
                         HStack(spacing: Theme.Spacing.md) {
                             SocialLoginButton(icon: "apple.logo", action: handleAppleSignIn)
-                            SocialLoginButton(icon: "g.circle.fill", action: handleGoogleSignIn)
                         }
                     }
                     .padding(.top, Theme.Spacing.lg)
@@ -228,21 +230,6 @@ struct LoginView: View {
             case .success(let userData):
                 // Create user with OAuth data
                 if authService.signUp(email: userData.email, password: "oauth_apple", name: userData.name) {
-                    navigateToHome = true
-                }
-            case .failure(let error):
-                errorMessage = error.localizedDescription
-                showError = true
-            }
-        }
-    }
-    
-    private func handleGoogleSignIn() {
-        oauthService.signInWithGoogle { result in
-            switch result {
-            case .success(let userData):
-                // Create user with OAuth data
-                if authService.signUp(email: userData.email, password: "oauth_google", name: userData.name) {
                     navigateToHome = true
                 }
             case .failure(let error):
