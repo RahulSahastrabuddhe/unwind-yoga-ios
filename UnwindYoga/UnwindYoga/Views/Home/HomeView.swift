@@ -85,9 +85,7 @@ struct HomeView: View {
                                 
                                 Spacer()
                                 
-                                Button(action: {
-                                    isShowingDailySession = true
-                                }) {
+                                NavigationLink(destination: DailySessionView().navigationBarBackButtonHidden(true)) {
                                     HStack {
                                         Image(systemName: "play.fill")
                                             .font(.caption)
@@ -101,10 +99,6 @@ struct HomeView: View {
                                     .cornerRadius(20)
                                 }
                                 .buttonStyle(PlainButtonStyle())
-                                .background(
-                                    NavigationLink("", destination: DailySessionView().navigationBarBackButtonHidden(true), isActive: $isShowingDailySession)
-                                        .opacity(0)
-                                )
                             }
                             .padding(.top, 8)
                         }

@@ -11,24 +11,46 @@ import AVKit
 struct DailySessionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var currentPoseIndex = 0
-    @State private var timeRemaining = 30
     @State private var isPlaying = true
-    @State private var timer: Timer? = nil
     @State private var showSessionComplete = false
     
-    // Get 5 random poses that have videos, sorted by difficulty
+    // Get 5 unique random poses that have videos, repeating if necessary
     private let sessionPoses: [YogaPose] = {
         let posesWithVideos = YogaPose.samplePoses.filter { $0.videoName != nil }
-        let shuffled = posesWithVideos.shuffled().prefix(5)
-        return Array(shuffled).sorted { $0.duration < $1.duration }
+        guard !posesWithVideos.isEmpty else { return [] }
+        
+        // Get unique poses
+        var uniquePoses = Array(Set(posesWithVideos))  // Remove any duplicates
+        var result = [YogaPose]()
+        
+        // If we have fewer than 5 unique poses, we'll need to repeat some
+        if uniquePoses.count < 5 {
+            // First add all unique poses
+            result.append(contentsOf: uniquePoses)
+            
+            // Then fill the remaining slots with random poses from the unique set
+            let remainingCount = 5 - uniquePoses.count
+            for _ in 0..<remainingCount {
+                if let randomPose = uniquePoses.randomElement() {
+                    result.append(randomPose)
+                }
+            }
+            
+            // Shuffle the result to mix the repeated poses
+            result.shuffle()
+        } else {
+            // If we have 5 or more unique poses, just take the first 5
+            result = Array(uniquePoses.shuffled().prefix(5))
+        }
+        
+        print("Selected poses:")
+        result.forEach { print("-\($0.name) (video: \($0.videoName ?? "none"))" )}
+        
+        return result
     }()
     
     private var currentPose: YogaPose {
         sessionPoses[currentPoseIndex]
-    }
-    
-    private var progress: Double {
-        Double(currentPoseIndex) / Double(sessionPoses.count - 1)
     }
     
     var body: some View {
@@ -36,258 +58,194 @@ struct DailySessionView: View {
             // Background
             Theme.Colors.background.ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                // Progress bar
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .frame(width: geometry.size.width, height: 4)
-                            .opacity(0.3)
-                            .foregroundColor(Theme.Colors.primary.opacity(0.3))
-                        
-                        Rectangle()
-                            .frame(width: min(CGFloat(progress) * geometry.size.width, geometry.size.width), height: 4)
-                            .foregroundColor(Theme.Colors.primary)
-                            .animation(.linear, value: progress)
-                    }
-                }
-                .frame(height: 4)
-                
-                // Current pose indicator
-                HStack {
-                    Text("Pose \(currentPoseIndex + 1) of \(sessionPoses.count)")
-                        .font(.caption)
-                        .foregroundColor(Theme.Colors.textSecondary)
-                    
-                    Spacer()
-                    
-                    Text(currentPose.difficulty.rawValue)
-                        .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(currentPose.difficulty.color.opacity(0.2))
-                        .foregroundColor(currentPose.difficulty.color)
-                        .cornerRadius(8)
-                }
-                .padding(.horizontal)
-                .padding(.top, 8)
-                
-                // Pose name and timer
-                VStack(spacing: 8) {
-                    Text(currentPose.name)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                    
-                    Text(currentPose.sanskritName)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .italic()
-                    
-                    // Timer
-                    Text(timeFormatted(timeRemaining))
-                        .font(.system(size: 48, weight: .bold, design: .rounded))
-                        .monospacedDigit()
-                        .padding(.vertical, 20)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            Circle()
-                                .stroke(Theme.Colors.primary.opacity(0.2), lineWidth: 10)
-                                .frame(width: 180, height: 180)
-                        )
-                        .padding(.vertical, 20)
-                }
-                .padding()
-                
-                // Video player or image
-                if let videoName = currentPose.videoName {
-                    VideoPlayerView(videoName: videoName, isPlaying: $isPlaying)
-                        .frame(height: 220)
-                        .cornerRadius(12)
+            VStack(spacing: 16) {
+                // Header with pose name
+                VStack(spacing: 4) {
+                    Text("Daily Session")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
-                        .onTapGesture {
-                            // Toggle play/pause
-                            isPlaying.toggle()
-                        }
-                } else {
-                    Image(currentPose.imageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 220)
-                        .cornerRadius(12)
-                        .padding(.horizontal)
-                        .shadow(radius: 5)
-                }
-                
-                // Pose instructions
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("How to:")
-                            .font(.headline)
-                        
-                        // Add step-by-step instructions here
-                        Text("1. Start in a comfortable position.")
-                        Text("2. Focus on your breath and maintain steady breathing.")
-                        Text("3. Hold the pose for the duration shown.")
-                        Text("4. Move mindfully to the next pose when prompted.")
-                        
-                        Divider()
-                            .padding(.vertical, 8)
-                        
-                        Text("Benefits:")
-                            .font(.headline)
-                        
-                        ForEach(currentPose.benefits.prefix(3), id: \.self) { benefit in
-                            HStack(alignment: .top) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(Theme.Colors.primary)
-                                    .padding(.top, 2)
-                                Text(benefit)
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-                    .padding(.horizontal)
-                }
-                
-                // Navigation buttons
-                HStack(spacing: 16) {
-                    if currentPoseIndex > 0 {
-                        Button(action: previousPose) {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                Text("Previous")
-                            }
+                    
+                    VStack(spacing: 4) {
+                        Text(currentPose.name)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                             .frame(maxWidth: .infinity)
-                            .padding()
+                        
+                        Text(currentPose.sanskritName)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .italic()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                }
+                .padding(.top, 16)
+                
+                // Video player with auto-progression and smooth transitions
+                if let videoName = currentPose.videoName {
+                    VideoPlayerView(
+                        videoName: videoName,
+                        isPlaying: $isPlaying,
+                        onVideoEnded: {
+                            // Auto-progress to next pose when video ends
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                nextPose()
+                            }
+                        }
+                    )
+                    .id("video-\(currentPose.id)")
+                    .frame(height: 300)
+                    .cornerRadius(16)
+                    .padding(.horizontal)
+                    .onTapGesture {
+                        isPlaying.toggle()
+                    }
+                    .onAppear {
+                        // Auto-play when view appears
+                        isPlaying = true
+                    }
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.3), value: currentPoseIndex)
+                }
+                
+                // Navigation controls
+                HStack(spacing: 20) {
+                    Button(action: previousPose) {
+                        Image(systemName: "backward.fill")
+                            .font(.title2)
+                            .frame(width: 50, height: 50)
                             .background(Theme.Colors.primary.opacity(0.1))
                             .foregroundColor(Theme.Colors.primary)
-                            .cornerRadius(10)
-                        }
+                            .clipShape(Circle())
+                    }
+                    .disabled(currentPoseIndex == 0)
+                    .opacity(currentPoseIndex == 0 ? 0.5 : 1.0)
+                    
+                    Button(action: { isPlaying.toggle() }) {
+                        Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                            .font(.system(size: 50))
+                            .foregroundColor(Theme.Colors.primary)
                     }
                     
                     Button(action: nextPose) {
-                        HStack {
-                            Text(currentPoseIndex == sessionPoses.count - 1 ? "Finish" : "Next")
-                            if currentPoseIndex < sessionPoses.count - 1 {
-                                Image(systemName: "chevron.right")
+                        Image(systemName: "forward.fill")
+                            .font(.title2)
+                            .frame(width: 50, height: 50)
+                            .background(Theme.Colors.primary.opacity(0.1))
+                            .foregroundColor(Theme.Colors.primary)
+                            .clipShape(Circle())
+                    }
+                    .disabled(currentPoseIndex == sessionPoses.count - 1)
+                    .opacity(currentPoseIndex == sessionPoses.count - 1 ? 0.5 : 1.0)
+                }
+                .padding(.vertical, 16)
+                
+                // Pose list with scroll
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Today's Poses")
+                        .font(.headline)
+                        .padding(.horizontal)
+                    
+                    ScrollView(.vertical, showsIndicators: true) {
+                        VStack(spacing: 0) {
+                            ForEach(0..<sessionPoses.count, id: \.self) { index in
+                                HStack(spacing: 12) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(index == currentPoseIndex ? Theme.Colors.primary : Color.gray.opacity(0.2))
+                                            .frame(width: 30, height: 30)
+                                        
+                                        Text("\(index + 1)")
+                                            .font(.caption.bold())
+                                            .foregroundColor(index == currentPoseIndex ? .white : .primary)
+                                    }
+                                    
+                                    Text(sessionPoses[index].name)
+                                        .font(.subheadline)
+                                        .foregroundColor(index == currentPoseIndex ? Theme.Colors.primary : .primary)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 12)
+                                        .padding(.horizontal, 8)
+                                        .background(
+                                            index == currentPoseIndex ? 
+                                            Theme.Colors.primary.opacity(0.1) : 
+                                            Color.clear
+                                        )
+                                        .cornerRadius(8)
+                                }
+                                .padding(.horizontal)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        currentPoseIndex = index
+                                        isPlaying = true
+                                    }
+                                }
+                                
+                                if index < sessionPoses.count - 1 {
+                                    Divider()
+                                        .padding(.leading, 54)
+                                }
                             }
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Theme.Colors.primary)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
                     }
+                    .frame(maxHeight: 200)
+                    .background(Color(.systemBackground))
+                    .cornerRadius(12)
+                    .padding(.horizontal)
                 }
-                .padding()
+                .padding(.bottom, 8)
+                .padding(.bottom, 8)
             }
         }
         .navigationBarTitle("Daily Session", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    // Confirm before exiting session
-                    showSessionComplete = true
-                }) {
+                Button(action: { dismiss() }) {
                     Image(systemName: "xmark")
                         .foregroundColor(Theme.Colors.primary)
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: togglePlayPause) {
-                    Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(Theme.Colors.primary)
-                }
-            }
-        }
-        .onAppear {
-            startTimer()
-        }
-        .onDisappear {
-            stopTimer()
+            // Removed the play/pause button from navigation bar
         }
         .alert("End Session?", isPresented: $showSessionComplete) {
-            Button("Continue", role: .cancel) {}
-            Button("End Session", role: .destructive) {
+            Button("Cancel", role: .cancel) {}
+            Button("End", role: .destructive) {
                 dismiss()
             }
         } message: {
-            Text("Are you sure you want to end your session? Your progress will be saved.")
+            Text("Are you sure you want to end your session?")
         }
-    }
-    
-    private func startTimer() {
-        // Set a default duration of 30 seconds if not specified
-        let poseDuration = currentPose.duration > 0 ? currentPose.duration : 30
-        timeRemaining = poseDuration
-        isPlaying = true
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            if timeRemaining > 0 && isPlaying {
-                timeRemaining -= 1
-            } else if timeRemaining == 0 {
-                // Auto-advance to next pose when timer reaches 0
-                if currentPoseIndex < sessionPoses.count - 1 {
-                    nextPose()
-                } else {
-                    // Session complete
-                    stopTimer()
-                    // Show completion message
-                    showSessionComplete = true
-                }
-            }
-        }
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
-    private func togglePlayPause() {
-        isPlaying.toggle()
     }
     
     private func nextPose() {
-        if currentPoseIndex < sessionPoses.count - 1 {
-            // Pause current video before changing
-            isPlaying = false
-            
-            // Small delay to allow UI to update
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                withAnimation {
-                    currentPoseIndex += 1
-                    timeRemaining = currentPose.duration
-                    // Start playing the next video
-                    isPlaying = true
-                }
-            }
-        } else {
-            // Session complete
+        guard currentPoseIndex < sessionPoses.count - 1 else {
             showSessionComplete = true
+            return
         }
+        
+        withAnimation(.easeInOut(duration: 0.3)) {
+            currentPoseIndex += 1
+        }
+        
+        // Log the current pose being played
+        print("▶️ Now playing: \(sessionPoses[currentPoseIndex].name) (video: \(sessionPoses[currentPoseIndex].videoName ?? "none"))")
     }
     
     private func previousPose() {
-        if currentPoseIndex > 0 {
-            withAnimation {
-                currentPoseIndex -= 1
-                timeRemaining = currentPose.duration
-            }
+        guard currentPoseIndex > 0 else { return }
+        
+        withAnimation(.easeInOut(duration: 0.3)) {
+            currentPoseIndex -= 1
         }
-    }
-    
-    private func timeFormatted(_ totalSeconds: Int) -> String {
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+        
+        // Log the current pose being played
+        print("⏮ Now playing: \(sessionPoses[currentPoseIndex].name) (video: \(sessionPoses[currentPoseIndex].videoName ?? "none"))")
     }
 }
 

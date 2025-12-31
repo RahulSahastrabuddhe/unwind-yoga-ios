@@ -13,6 +13,7 @@ struct HomeTabView: View {
     @State private var poses = YogaPose.samplePoses
     @State private var sessions: [YogaSession] = []
     @State private var currentTime = Date()
+    @State private var isShowingDailySession = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -43,10 +44,13 @@ struct HomeTabView: View {
                         .padding(.horizontal, Theme.Spacing.lg)
                         .padding(.top, Theme.Spacing.md)
                         
-                        // Daily Session Card
+                        // Daily Session Card with Navigation
                         if let dailySession = sessions.first {
-                            DailySessionCard(session: dailySession)
-                                .padding(.horizontal, Theme.Spacing.lg)
+                            NavigationLink(value: "dailySession") {
+                                DailySessionCard(session: dailySession)
+                                    .padding(.horizontal, Theme.Spacing.lg)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         
                         // Browse More Button
@@ -77,6 +81,12 @@ struct HomeTabView: View {
                 }
             }
             .navigationBarHidden(true)
+            .navigationDestination(for: String.self) { value in
+                if value == "dailySession" {
+                    DailySessionView()
+                        .navigationBarBackButtonHidden(true)
+                }
+            }
             .onAppear {
                 sessions = YogaSession.sampleSessions(poses: poses)
             }
