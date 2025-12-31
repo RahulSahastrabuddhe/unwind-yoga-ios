@@ -70,7 +70,7 @@ extension YogaPose {
             difficulty: .beginner,
             duration: 30,
             category: .standing,
-            videoName: "mountain_pose"
+            videoName: nil
         ),
         YogaPose(
             name: "Downward-Facing Dog",
@@ -80,7 +80,7 @@ extension YogaPose {
             difficulty: .beginner,
             duration: 60,
             category: .inversion,
-            videoName: "downward_dog"
+            videoName: nil
         ),
         YogaPose(
             name: "Warrior I",
@@ -90,7 +90,7 @@ extension YogaPose {
             difficulty: .beginner,
             duration: 45,
             category: .standing,
-            videoName: "warrior_1"
+            videoName: nil
         ),
         YogaPose(
             name: "Warrior II",
@@ -100,15 +100,15 @@ extension YogaPose {
             difficulty: .beginner,
             duration: 45,
             category: .standing,
-            videoName: "warrior_2"
+            videoName: nil
         ),
         YogaPose(
             name: "Tree Pose",
             sanskritName: "Vrksasana",
-            description: "Stand on one leg, place the sole of the other foot on inner thigh or calf. Bring hands to prayer position at chest or extend overhead. Focus on a fixed point for balance.",
-            benefits: ["Improves balance", "Strengthens legs", "Enhances focus"],
+            description: "Stand on one leg, place the sole of the other foot on the inner thigh or calf, and bring hands to prayer position. This balancing pose improves focus and stability.",
+            benefits: ["Improves balance", "Strengthens legs", "Focuses the mind"],
             difficulty: .beginner,
-            duration: 30,
+            duration: 45,
             category: .balancing,
             videoName: "tree_pose"
         ),
@@ -119,7 +119,8 @@ extension YogaPose {
             benefits: ["Relieves stress", "Stretches back", "Calms mind"],
             difficulty: .beginner,
             duration: 60,
-            category: .restorative
+            category: .restorative,
+            videoName: nil
         ),
         YogaPose(
             name: "Cobra Pose",
@@ -128,7 +129,8 @@ extension YogaPose {
             benefits: ["Strengthens spine", "Opens chest", "Improves flexibility"],
             difficulty: .beginner,
             duration: 30,
-            category: .backbend
+            category: .backbend,
+            videoName: nil
         ),
         YogaPose(
             name: "Seated Forward Bend",
@@ -137,16 +139,18 @@ extension YogaPose {
             benefits: ["Stretches hamstrings", "Calms mind", "Relieves stress"],
             difficulty: .intermediate,
             duration: 60,
-            category: .forward
+            category: .forward,
+            videoName: nil
         ),
         YogaPose(
             name: "Triangle Pose",
             sanskritName: "Trikonasana",
-            description: "Stand with feet wide, extend arms parallel to floor. Reach one hand down to shin or floor, other arm extends up. This pose stretches and strengthens the entire body.",
-            benefits: ["Stretches sides", "Strengthens legs", "Improves digestion"],
+            description: "Stand with feet wide apart, extend arms parallel to floor. Reach forward with one hand, then lower it to shin or floor while other arm reaches up. This pose stretches and strengthens the entire body.",
+            benefits: ["Stretches hamstrings", "Opens hips", "Improves digestion"],
             difficulty: .beginner,
             duration: 45,
-            category: .standing
+            category: .standing,
+            videoName: "triangle_pose"
         ),
         YogaPose(
             name: "Pigeon Pose",
@@ -155,7 +159,8 @@ extension YogaPose {
             benefits: ["Opens hips", "Releases tension", "Stretches glutes"],
             difficulty: .intermediate,
             duration: 60,
-            category: .seated
+            category: .seated,
+            videoName: nil
         ),
         YogaPose(
             name: "Bridge Pose",
@@ -164,7 +169,8 @@ extension YogaPose {
             benefits: ["Strengthens back", "Opens chest", "Energizes body"],
             difficulty: .beginner,
             duration: 45,
-            category: .backbend
+            category: .backbend,
+            videoName: nil
         ),
         YogaPose(
             name: "Corpse Pose",
@@ -173,7 +179,8 @@ extension YogaPose {
             benefits: ["Deep relaxation", "Reduces stress", "Integrates practice"],
             difficulty: .beginner,
             duration: 300,
-            category: .restorative
+            category: .restorative,
+            videoName: nil
         ),
         YogaPose(
             name: "Plank Pose",
@@ -182,7 +189,8 @@ extension YogaPose {
             benefits: ["Strengthens core", "Builds arm strength", "Improves posture"],
             difficulty: .beginner,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: nil
         ),
         YogaPose(
             name: "Cat-Cow Pose",
@@ -191,7 +199,8 @@ extension YogaPose {
             benefits: ["Increases flexibility", "Warms up spine", "Relieves back tension"],
             difficulty: .beginner,
             duration: 45,
-            category: .restorative
+            category: .restorative,
+            videoName: nil
         ),
         YogaPose(
             name: "Extended Side Angle",
@@ -200,16 +209,18 @@ extension YogaPose {
             benefits: ["Strengthens legs", "Stretches sides", "Improves stamina"],
             difficulty: .intermediate,
             duration: 45,
-            category: .standing
+            category: .standing,
+            videoName: nil
         ),
         YogaPose(
             name: "Chair Pose",
             sanskritName: "Utkatasana",
-            description: "Stand with feet together, bend knees as if sitting in a chair. Raise arms overhead. Keep weight in heels. Powerful pose that builds leg and core strength.",
-            benefits: ["Strengthens legs", "Tones core", "Builds endurance"],
+            description: "Stand with feet together, bend knees and lower hips as if sitting in a chair. Raise arms overhead. This powerful pose strengthens the legs and core.",
+            benefits: ["Strengthens legs", "Tones core", "Improves balance"],
             difficulty: .beginner,
-            duration: 30,
-            category: .standing
+            duration: 45,
+            category: .standing,
+            videoName: "chair_pose"
         ),
         YogaPose(
             name: "Camel Pose",
@@ -218,7 +229,8 @@ extension YogaPose {
             benefits: ["Opens chest", "Stretches hip flexors", "Energizes body"],
             difficulty: .advanced,
             duration: 30,
-            category: .backbend
+            category: .backbend,
+            videoName: nil
         ),
         YogaPose(
             name: "Boat Pose",
@@ -227,7 +239,8 @@ extension YogaPose {
             benefits: ["Strengthens core", "Improves balance", "Tones abs"],
             difficulty: .intermediate,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: nil
         ),
         YogaPose(
             name: "Warrior III",
@@ -236,7 +249,8 @@ extension YogaPose {
             benefits: ["Improves balance", "Strengthens legs", "Enhances focus"],
             difficulty: .advanced,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: nil
         ),
         YogaPose(
             name: "Half Lord of the Fishes",
@@ -245,7 +259,8 @@ extension YogaPose {
             benefits: ["Improves digestion", "Increases spinal mobility", "Detoxifies organs"],
             difficulty: .intermediate,
             duration: 45,
-            category: .twist
+            category: .twist,
+            videoName: nil
         ),
         YogaPose(
             name: "Legs Up the Wall",
@@ -254,7 +269,8 @@ extension YogaPose {
             benefits: ["Reduces leg swelling", "Calms nervous system", "Relieves tired legs"],
             difficulty: .beginner,
             duration: 300,
-            category: .restorative
+            category: .restorative,
+            videoName: nil
         ),
         YogaPose(
             name: "Eagle Pose",
@@ -263,7 +279,8 @@ extension YogaPose {
             benefits: ["Improves balance", "Opens shoulders", "Strengthens ankles"],
             difficulty: .intermediate,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: nil
         ),
         YogaPose(
             name: "Upward-Facing Dog",
@@ -272,7 +289,8 @@ extension YogaPose {
             benefits: ["Opens chest", "Strengthens arms", "Improves posture"],
             difficulty: .intermediate,
             duration: 30,
-            category: .backbend
+            category: .backbend,
+            videoName: nil
         ),
         YogaPose(
             name: "Happy Baby",
@@ -281,7 +299,8 @@ extension YogaPose {
             benefits: ["Opens hips", "Releases lower back", "Calms mind"],
             difficulty: .beginner,
             duration: 60,
-            category: .restorative
+            category: .restorative,
+            videoName: nil
         ),
         YogaPose(
             name: "Revolved Triangle",
@@ -290,7 +309,8 @@ extension YogaPose {
             benefits: ["Improves balance", "Strengthens legs", "Detoxifies organs"],
             difficulty: .advanced,
             duration: 45,
-            category: .twist
+            category: .twist,
+            videoName: nil
         ),
         YogaPose(
             name: "Sphinx Pose",
@@ -299,7 +319,8 @@ extension YogaPose {
             benefits: ["Strengthens spine", "Opens chest", "Gentle backbend"],
             difficulty: .beginner,
             duration: 45,
-            category: .backbend
+            category: .backbend,
+            videoName: nil
         ),
         YogaPose(
             name: "Side Plank",
@@ -308,7 +329,8 @@ extension YogaPose {
             benefits: ["Strengthens core", "Builds arm strength", "Improves balance"],
             difficulty: .intermediate,
             duration: 30,
-            category: .balancing
+            category: .balancing,
+            videoName: nil
         )
     ]
 }

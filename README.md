@@ -5,39 +5,41 @@ A native iOS yoga application built with SwiftUI, designed to help users practic
 ## 📱 About
 
 Unwind Yoga is a personal wellness app that provides:
-- Daily personalized yoga sessions
-- Comprehensive library of yoga poses
-- Detailed pose instructions and benefits
-- Progress tracking (coming soon)
+- Daily personalized yoga sessions with video guidance
+- Comprehensive library of yoga poses with detailed instructions
+- Video demonstrations for each pose
+- Progress tracking and session history
 - Beautiful, intuitive interface
 
 ## 🎯 Project Status
 
-**Current Version**: v0.1.0 (MVP in Development)  
+**Current Version**: v1.1.0  
+**Latest Update**: December 2025  
 **Platform**: iOS 17.0+  
-**Language**: Swift  
+**Language**: Swift 5.9  
 **Framework**: SwiftUI
 
-### ✅ Implemented Features (v1.0)
+### ✅ Implemented Features (v1.1.0)
+- Video playback for yoga poses
+- Full-screen video player with controls
+- Daily session with 5 random poses
+- Video indicators in the library
+- Smooth transitions between poses
+- Enhanced error handling and debugging
+
+### ✅ Previous Features (v1.0)
 - Welcome/Onboarding screens
 - User authentication (local storage)
 - Home screen with daily session recommendations
-- Library with 12 yoga poses
+- Library with 20+ yoga poses
 - Search and filter functionality
 - Detailed pose information with benefits
-- Custom UI components matching brand design
+- Custom UI components
 
 ### 🚧 In Progress
-- Testing and refinement
-- UI/UX polish
-
-### 📋 Planned Features
-- Active session with timer
-- Progress tracking and streaks
-- Daily reminder notifications
-- Profile and settings
-- Cloud sync
-- Real yoga pose images/videos
+- Session history tracking
+- User progress visualization
+- Performance optimizations
 
 ## 🎨 Design
 
@@ -46,7 +48,52 @@ The app features a clean, modern design with:
 - **Background**: Warm White (#FCF9F7)
 - **Typography**: SF Pro (iOS system font)
 
-Design files: [Figma](https://www.figma.com/proto/pmGweGuBu8uBrZrwGjXlnL/Unwind-Yoga-Design-final)
+## 🛠 Technical Details
+
+### Architecture
+- MVVM (Model-View-ViewModel) pattern
+- SwiftUI for UI
+- Combine for reactive programming
+- AVKit for video playback
+
+### Dependencies
+- iOS 17.0+
+- Xcode 15.0+
+- Swift Package Manager
+
+## 📸 Screenshots
+
+| Home Screen | Pose Library | Video Player |
+|-------------|--------------|--------------|
+| <img src="screenshots/home.png" width="200"> | <img src="screenshots/library.png" width="200"> | <img src="screenshots/video_player.png" width="200"> |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Xcode 15.0 or later
+- iOS 17.0+ device or simulator
+- CocoaPods (for future dependencies)
+
+### Installation
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/unwind-yoga-ios.git
+   cd unwind-yoga-ios
+   ```
+2. Open `UnwindYoga.xcodeproj` in Xcode
+3. Build and run the project (⌘R)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTING.md) to get started.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+
+For any questions or feedback, please reach out to [your-email@example.com](mailto:your-email@example.com)
 
 ## 🏗️ Architecture
 

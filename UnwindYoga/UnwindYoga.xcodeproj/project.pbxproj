@@ -6,6 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C1E2F01E2F04A03700A00DB9 /* shoulder_stand.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F62E2F0481B90097136C /* shoulder_stand.mp4 */; };
+		C1E2F01F2F04A03700A00DB9 /* plow_pose.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F62D2F0481B90097136C /* plow_pose.mp4 */; };
+		C1E2F0202F04A03700A00DB9 /* triangle_pose.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F6332F0481B90097136C /* triangle_pose.mp4 */; };
+		C1E2F0212F04A03700A00DB9 /* sun_salutation_vinyasa.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F6302F0481B90097136C /* sun_salutation_vinyasa.mp4 */; };
+		C1E2F0222F04A03700A00DB9 /* standing_forward_fold.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F62F2F0481B90097136C /* standing_forward_fold.mp4 */; };
+		C1E2F0232F04A03700A00DB9 /* half_moon_pose.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F62C2F0481B90097136C /* half_moon_pose.mp4 */; };
+		C1E2F0242F04A03700A00DB9 /* vinyasa_flow.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F6342F0481B90097136C /* vinyasa_flow.mp4 */; };
+		C1E2F0252F04A03700A00DB9 /* tree_pose.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F6322F0481B90097136C /* tree_pose.mp4 */; };
+		C1E2F0262F04A03700A00DB9 /* chair_pose.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F62B2F0481B90097136C /* chair_pose.mp4 */; };
+		C1E2F0272F04A03700A00DB9 /* three_legged_downward_dog_to_cobra.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C116F6312F0481B90097136C /* three_legged_downward_dog_to_cobra.mp4 */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C116F62B2F0481B90097136C /* chair_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = chair_pose.mp4; sourceTree = "<group>"; };
 		C116F62C2F0481B90097136C /* half_moon_pose.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = half_moon_pose.mp4; sourceTree = "<group>"; };
@@ -145,6 +158,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1E2F01E2F04A03700A00DB9 /* shoulder_stand.mp4 in Resources */,
+				C1E2F01F2F04A03700A00DB9 /* plow_pose.mp4 in Resources */,
+				C1E2F0202F04A03700A00DB9 /* triangle_pose.mp4 in Resources */,
+				C1E2F0212F04A03700A00DB9 /* sun_salutation_vinyasa.mp4 in Resources */,
+				C1E2F0222F04A03700A00DB9 /* standing_forward_fold.mp4 in Resources */,
+				C1E2F0232F04A03700A00DB9 /* half_moon_pose.mp4 in Resources */,
+				C1E2F0242F04A03700A00DB9 /* vinyasa_flow.mp4 in Resources */,
+				C1E2F0252F04A03700A00DB9 /* tree_pose.mp4 in Resources */,
+				C1E2F0262F04A03700A00DB9 /* chair_pose.mp4 in Resources */,
+				C1E2F0272F04A03700A00DB9 /* three_legged_downward_dog_to_cobra.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
