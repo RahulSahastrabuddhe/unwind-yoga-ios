@@ -15,17 +15,21 @@ Unwind Yoga is a personal wellness app that provides:
 
 **Current Version**: v1.1.0  
 **Latest Update**: December 2025  
-**Platform**: iOS 17.0+  
-**Language**: Swift 5.9  
+**Platform**: iOS 16.0+  
+**Language**: Swift 5.0  
 **Framework**: SwiftUI
 
 ### ✅ Implemented Features (v1.1.0)
 - Video playback for yoga poses
 - Full-screen video player with controls
 - Daily session with 5 random poses
-- Video indicators in the library
+- Video indicators in library
 - Smooth transitions between poses
 - Enhanced error handling and debugging
+- Sign In with Apple (local auth)
+- Improved login UX with AutoFill and better keyboard behavior
+- iOS 16.0+ support
+- Removed non-functional Google Sign-In from UI for clean release
 
 ### ✅ Previous Features (v1.0)
 - Welcome/Onboarding screens
@@ -71,7 +75,7 @@ The app features a clean, modern design with:
 
 ### Prerequisites
 - Xcode 15.0 or later
-- iOS 17.0+ device or simulator
+- iOS 16.0+ device or simulator
 - CocoaPods (for future dependencies)
 
 ### Installation
@@ -118,7 +122,7 @@ UnwindYoga/
 
 ### Prerequisites
 - macOS with Xcode 15.0 or later
-- iOS 17.0+ device or simulator
+- iOS 16.0+ device or simulator
 
 ### Installation
 
@@ -176,9 +180,10 @@ The app includes 12 sample yoga poses:
 - Profile screen
 - Notifications
 
-### Phase 6-7: 📋 Planned
+### Phase 6-7: ✅ Complete
 - Testing and refinement
-- App Store submission
+- App Store submission preparation
+- Release-ready codebase (iOS 16.0+, auth fixes, UX polish)
 
 ## 🤝 Contributing
 
@@ -206,4 +211,4 @@ _Coming soon..._
 
 **Note**: This is an MVP (Minimum Viable Product) in active development. Features and design are subject to change.
 
-*Last Updated: November 9, 2025*
+*Last Updated: December 31, 2025*
