@@ -184,6 +184,13 @@ The app includes 12 sample yoga poses:
 - Testing and refinement
 - App Store submission preparation
 - Release-ready codebase (iOS 16.0+, auth fixes, UX polish)
+- **🎉 SUBMITTED TO APP STORE FOR REVIEW** - January 18, 2026
+
+### Current Status: Under Apple Review
+- **Review Timeline**: Typically 24-48 hours (up to 7 days)
+- **Version**: v1.1.0 submitted with 10 yoga poses
+- **Features**: Video playback, Apple Sign-In, daily sessions, pose library
+- **Next**: Awaiting Apple approval for App Store launch
 
 ## 🤝 Contributing
 
@@ -211,4 +218,4 @@ _Coming soon..._
 
 **Note**: This is an MVP (Minimum Viable Product) in active development. Features and design are subject to change.
 
-*Last Updated: December 31, 2025*
+*Last Updated: January 18, 2026*
