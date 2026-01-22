@@ -15,6 +15,12 @@ struct User: Codable {
     var experienceLevel: YogaPose.Difficulty
     var goals: [Goal]
     
+    // Progress tracking
+    var completedSessions: [Date] = []
+    var currentStreak: Int = 0
+    var totalPracticeTime: TimeInterval = 0 // in seconds
+    var lastActiveDate: Date?
+    
     enum Goal: String, Codable, CaseIterable {
         case flexibility = "Improve Flexibility"
         case strength = "Build Strength"

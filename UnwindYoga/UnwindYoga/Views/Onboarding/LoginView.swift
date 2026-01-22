@@ -109,7 +109,11 @@ struct LoginView: View {
                         }
                         
                         HStack(spacing: Theme.Spacing.md) {
-                            SocialLoginButton(icon: "apple.logo", action: handleAppleSignIn)
+                            SocialLoginButton(
+                                icon: "apple.logo", 
+                                action: handleAppleSignIn,
+                                isLoading: oauthService.isAuthenticating
+                            )
                         }
                     }
                     .padding(.top, Theme.Spacing.lg)
@@ -229,12 +233,19 @@ struct LoginView: View {
             switch result {
             case .success(let userData):
                 // Create user with OAuth data
-                if authService.signUp(email: userData.email, password: "oauth_apple", name: userData.name) {
-                    navigateToHome = true
+                DispatchQueue.main.async {
+                    if self.authService.signUp(email: userData.email, password: "oauth_apple", name: userData.name) {
+                        self.navigateToHome = true
+                    } else {
+                        self.errorMessage = "Failed to create account with Apple Sign-In"
+                        self.showError = true
+                    }
                 }
             case .failure(let error):
-                errorMessage = error.localizedDescription
-                showError = true
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                    self.showError = true
+                }
             }
         }
     }
@@ -244,21 +255,37 @@ struct LoginView: View {
 struct SocialLoginButton: View {
     let icon: String
     let action: () -> Void
+    let isLoading: Bool
+    
+    init(icon: String, action: @escaping () -> Void, isLoading: Bool = false) {
+        self.icon = icon
+        self.action = action
+        self.isLoading = isLoading
+    }
     
     var body: some View {
         Button(action: action) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(Theme.Colors.textPrimary)
-                .frame(maxWidth: .infinity)
-                .frame(height: 56)
-                .background(Color.white)
-                .cornerRadius(Theme.CornerRadius.medium)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Theme.CornerRadius.medium)
-                        .stroke(Theme.Colors.textSecondary.opacity(0.2), lineWidth: 1)
-                )
+            HStack {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Theme.Colors.textPrimary))
+                        .scaleEffect(0.8)
+                } else {
+                    Image(systemName: icon)
+                        .font(.title2)
+                        .foregroundColor(Theme.Colors.textPrimary)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .background(Color.white)
+            .cornerRadius(Theme.CornerRadius.medium)
+            .overlay(
+                RoundedRectangle(cornerRadius: Theme.CornerRadius.medium)
+                    .stroke(Theme.Colors.textSecondary.opacity(0.2), lineWidth: 1)
+            )
         }
+        .disabled(isLoading)
     }
 }
 

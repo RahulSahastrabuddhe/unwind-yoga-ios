@@ -10,9 +10,12 @@ import AVKit
 
 struct DailySessionView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var progressService = ProgressService()
     @State private var currentPoseIndex = 0
     @State private var isPlaying = true
     @State private var showSessionComplete = false
+    @State private var sessionStartTime = Date()
+    @State private var totalSessionTime: TimeInterval = 0
     
     // Get 5 unique random poses that have videos, repeating if necessary
     private let sessionPoses: [YogaPose] = {
@@ -108,6 +111,7 @@ struct DailySessionView: View {
                     .onAppear {
                         // Auto-play when view appears
                         isPlaying = true
+                        sessionStartTime = Date()
                     }
                     .transition(.opacity)
                     .animation(.easeInOut(duration: 0.3), value: currentPoseIndex)
@@ -227,6 +231,9 @@ struct DailySessionView: View {
     
     private func nextPose() {
         guard currentPoseIndex < sessionPoses.count - 1 else {
+            // Session completed - mark progress
+            totalSessionTime = Date().timeIntervalSince(sessionStartTime)
+            progressService.markSessionCompleted(duration: totalSessionTime)
             showSessionComplete = true
             return
         }

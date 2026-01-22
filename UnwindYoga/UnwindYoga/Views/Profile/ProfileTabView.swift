@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileTabView: View {
     @EnvironmentObject var authService: AuthService
+    @StateObject private var progressService = ProgressService()
     @State private var showLogoutAlert = false
     
     var body: some View {
@@ -56,17 +57,17 @@ struct ProfileTabView: View {
                             
                             // Stats Row
                             HStack(spacing: Theme.Spacing.xl) {
-                                ProfileStat(value: "24", label: "Sessions")
+                                ProfileStat(value: "\(progressService.completedSessions.count)", label: "Sessions")
                                 
                                 Divider()
                                     .frame(height: 40)
                                 
-                                ProfileStat(value: "7", label: "Streak")
+                                ProfileStat(value: "\(progressService.currentStreak)", label: "Streak")
                                 
                                 Divider()
                                     .frame(height: 40)
                                 
-                                ProfileStat(value: "12h", label: "Total Time")
+                                ProfileStat(value: progressService.getFormattedTotalTime(), label: "Total Time")
                             }
                             .padding(.top, Theme.Spacing.md)
                         }

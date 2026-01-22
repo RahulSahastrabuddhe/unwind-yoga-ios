@@ -8,21 +8,13 @@
 import SwiftUI
 
 struct ProgressTabView: View {
+    @StateObject private var progressService = ProgressService()
     @State private var selectedTab = 0
-    @State private var weeklyGoal = 5
-    @State private var completedSessions = 0
     
     // Calendar state
     @State private var selectedDate = Date()
     @State private var currentMonth = 0
     @State private var showWeekView = false
-    
-    // Sample completed sessions data
-    private let completedDates: [Date] = [
-        Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
-        Calendar.current.date(byAdding: .day, value: -3, to: Date())!,
-        Calendar.current.date(byAdding: .day, value: -5, to: Date())!
-    ]
     
     // Get current month dates
     private func getCurrentMonth() -> Date {
@@ -96,7 +88,7 @@ struct ProgressTabView: View {
                                         
                                         // Progress circle
                                         Circle()
-                                            .trim(from: 0, to: CGFloat(completedSessions) / CGFloat(weeklyGoal))
+                                            .trim(from: 0, to: progressService.getWeeklyGoalProgress())
                                             .stroke(
                                                 LinearGradient(
                                                     colors: [Theme.Colors.primary.opacity(0.8), Theme.Colors.primary],
@@ -107,10 +99,10 @@ struct ProgressTabView: View {
                                             )
                                             .frame(width: 160, height: 160)
                                             .rotationEffect(.degrees(-90))
-                                            .animation(.spring(response: 0.6, dampingFraction: 0.8), value: completedSessions)
+                                            .animation(.spring(response: 0.6, dampingFraction: 0.8), value: progressService.getWeeklyProgress())
                                         
                                         VStack(spacing: 6) {
-                                            Text("\(completedSessions)/\(weeklyGoal)")
+                                            Text("\(progressService.getWeeklyProgress())/\(progressService.weeklyGoal)")
                                                 .font(.system(size: 36, weight: .bold))
                                                 .foregroundColor(Theme.Colors.textPrimary)
                                             
@@ -124,8 +116,8 @@ struct ProgressTabView: View {
                                 
                                 // Stats Grid
                                 HStack(spacing: Theme.Spacing.md) {
-                                    StatBox(icon: "figure.run", value: "0", label: "Lifetime exercise\nsessions", color: .green)
-                                    StatBox(icon: "bolt.fill", value: "0", label: "Weekly goal\nstreak", color: .orange)
+                                    StatBox(icon: "figure.run", value: "\(progressService.completedSessions.count)", label: "Lifetime exercise\nsessions", color: .green)
+                                    StatBox(icon: "bolt.fill", value: "\(progressService.currentStreak)", label: "Weekly goal\nstreak", color: .orange)
                                 }
                                 .padding(.horizontal, Theme.Spacing.lg)
                                 
@@ -180,7 +172,7 @@ struct ProgressTabView: View {
                                             ForEach(extractDate(), id: \.self) { value in
                                                 if value.day != -1 {
                                                     let isToday = Calendar.current.isDateInToday(value.date)
-                                                    let isCompleted = completedDates.contains { Calendar.current.isDate($0, inSameDayAs: value.date) }
+                                                    let isCompleted = progressService.getActivityForDate(value.date)
                                                     let isCurrentMonth = Calendar.current.isDate(value.date, equalTo: getCurrentMonth(), toGranularity: .month)
                                                     
                                                     VStack(spacing: 4) {
