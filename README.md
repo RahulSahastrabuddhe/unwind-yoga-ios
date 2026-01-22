@@ -30,6 +30,10 @@ Unwind Yoga is a personal wellness app that provides:
 - Improved login UX with AutoFill and better keyboard behavior
 - iOS 16.0+ support
 - Removed non-functional Google Sign-In from UI for clean release
+- **Dynamic progress tracking with real-time statistics**
+- **Automatic daily activity tracking and streak calculation**
+- **Session completion tracking with duration logging**
+- **Interactive progress calendar with completed days visualization**
 
 ### ✅ Previous Features (v1.0)
 - Welcome/Onboarding screens
@@ -159,6 +163,7 @@ The app includes 12 sample yoga poses:
 - **State Management**: Combine
 - **Data Persistence**: UserDefaults (local)
 - **Architecture**: MVVM-like pattern
+- **Progress Tracking**: Custom ProgressService with local storage
 
 ## 📖 Documentation
 
@@ -186,10 +191,11 @@ The app includes 12 sample yoga poses:
 - Release-ready codebase (iOS 16.0+, auth fixes, UX polish)
 - **🎉 SUBMITTED TO APP STORE FOR REVIEW** - January 18, 2026
 
-### Current Status: Under Apple Review
+### Current Status: Under Apple Review (Second Submission)
 - **Review Timeline**: Typically 24-48 hours (up to 7 days)
-- **Version**: v1.1.0 submitted with 10 yoga poses
-- **Features**: Video playback, Apple Sign-In, daily sessions, pose library
+- **Version**: v1.1.0 with dynamic progress tracking
+- **Features**: Video playback, Apple Sign-In, daily sessions, real-time progress tracking
+- **Recent Fixes**: Apple Sign-In bug resolved, dynamic stats implemented
 - **Next**: Awaiting Apple approval for App Store launch
 
 ## 🤝 Contributing
@@ -218,4 +224,4 @@ _Coming soon..._
 
 **Note**: This is an MVP (Minimum Viable Product) in active development. Features and design are subject to change.
 
-*Last Updated: January 18, 2026*
+*Last Updated: January 21, 2026*

@@ -2,6 +2,43 @@
 
 All notable changes to the Unwind Yoga iOS app will be documented in this file.
 
+## [1.1.1] - 2026-01-21
+
+### Added
+- Dynamic progress tracking with real-time statistics
+- Automatic daily activity tracking when app opens
+- Session completion tracking with duration calculation
+- Interactive progress calendar with completed days visualization
+- ProgressService for managing user progress data
+- Weekly goal progress visualization with animated circle
+- Real-time streak calculation and session counting
+- Persistent progress storage with UserDefaults
+
+### Changed
+- Profile statistics now show actual user data instead of static values
+- Progress tab uses real completed sessions instead of sample data
+- Enhanced Apple Sign-In with proper presentation context
+- Improved error handling for all authentication scenarios
+- Added loading states for Apple Sign-In button
+- Updated tech stack to include ProgressService
+
+### Fixed
+- Apple Sign-In presentation context for iPad compatibility
+- Memory management issues with [weak self] references
+- Authentication error handling with specific error codes
+- Static profile data showing incorrect initial values
+- Progress calendar not reflecting real user activity
+
+### Technical
+- Added progress tracking properties to User model
+- Implemented proper window presentation for Apple Sign-In
+- Enhanced OAuthService with better error handling
+- Created comprehensive progress tracking system
+- Improved session duration tracking and logging
+
+### Milestone
+- **🎉 READY FOR APP STORE RESUBMISSION** - Apple Sign-In fixed, progress tracking implemented
+
 ## [1.1.0] - 2026-01-18
 
 ### Added

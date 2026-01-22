@@ -622,4 +622,56 @@
 
 ---
 
-*Last Updated: January 18, 2026*
+## January 21, 2026 - Progress Tracking Implementation & Apple Sign-In Fixes
+
+### What We Accomplished
+- ✅ **Implemented dynamic progress tracking**: Created ProgressService for real-time statistics
+- ✅ **Fixed Apple Sign-In issues**: Added proper presentation context and error handling
+- ✅ **Replaced static profile stats**: Users now see actual session counts, streaks, and practice time
+- ✅ **Added automatic daily tracking**: App marks activity when opened and sessions when completed
+- ✅ **Enhanced user experience**: Progress calendar shows real completed days with visual indicators
+
+### Technical Changes Made
+- **ProgressService.swift**: New service for tracking sessions, streaks, and practice time with UserDefaults persistence
+- **User.swift**: Added progress tracking properties (completedSessions, currentStreak, totalPracticeTime, lastActiveDate)
+- **ProgressTabView.swift**: Updated to use real data instead of hardcoded sample dates
+- **ProfileTabView.swift**: Dynamic statistics that update based on actual user activity
+- **OAuthService.swift**: Enhanced Apple Sign-In with proper window presentation and specific error handling
+- **LoginView.swift**: Added loading states and improved error feedback for Apple Sign-In
+- **DailySessionView.swift**: Tracks session completion with duration calculation
+- **UnwindYogaApp.swift**: Automatic daily activity marking when app launches
+
+### Features Added
+- **Real-time progress tracking**: Sessions count, current streak, total practice time
+- **Weekly goal visualization**: Progress circle showing weekly completion rate
+- **Interactive calendar**: Visual indicators for completed practice days
+- **Session duration tracking**: Automatic time calculation for completed sessions
+- **Streak calculation**: Consecutive days of activity tracking
+- **Persistent storage**: All progress data survives app restarts
+
+### Apple Sign-In Fixes
+- **Presentation context**: Added ASAuthorizationControllerPresentationContextProviding
+- **Error handling**: Specific handling for different Apple Sign-In error codes
+- **Memory management**: Proper [weak self] references to prevent retain cycles
+- **Loading states**: Visual feedback during authentication process
+- **Debug logging**: Enhanced troubleshooting for authentication issues
+
+### User Experience Improvements
+- **New user experience**: Starts with 0 sessions, 0 streak, 0 time (no more confusing static values)
+- **Progress visualization**: Clear visual feedback for completed activities
+- **Automatic tracking**: No manual input required - progress updates automatically
+- **Real-time updates**: Statistics update immediately as users engage with the app
+
+### Testing Notes
+- Apple Sign-In works in TestFlight/App Store builds but not when run from Xcode (debug restrictions)
+- Progress tracking works immediately - daily activity marked on app open, sessions marked on completion
+- All data persists locally using UserDefaults
+
+### Next Steps
+- Test Apple Sign-In via TestFlight to confirm fixes work in production environment
+- Archive and upload updated build for App Store resubmission
+- Monitor App Store review process for approval
+
+---
+
+*Last Updated: January 21, 2026*
