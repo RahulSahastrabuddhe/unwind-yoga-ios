@@ -15,7 +15,7 @@ class AuthService: ObservableObject {
     private let userDefaultsKey = "unwindyoga_user"
     
     init() {
-        loadUser()
+        loadCurrentUser()
     }
     
     // MARK: - Authentication Methods
@@ -25,6 +25,12 @@ class AuthService: ObservableObject {
         // In production, this would connect to a backend
         
         guard !email.isEmpty, !password.isEmpty, !name.isEmpty else {
+            return false
+        }
+        
+        // Check if user already exists
+        if let existingUsers = loadAllUsers(), existingUsers.contains(where: { $0.email == email }) {
+            print("❌ User with email \(email) already exists")
             return false
         }
         
@@ -43,21 +49,39 @@ class AuthService: ObservableObject {
             return false
         }
         
-        if let savedUser = loadUser() {
-            if savedUser.email == email {
-                currentUser = savedUser
+        if let allUsers = loadAllUsers() {
+            if let foundUser = allUsers.first(where: { $0.email == email }) {
+                currentUser = foundUser
                 isAuthenticated = true
+                print("✅ User logged in: \(email)")
                 return true
             }
         }
         
+        print("❌ No user found with email: \(email)")
         return false
     }
     
     func logout() {
         currentUser = nil
         isAuthenticated = false
+        // Don't remove user data from UserDefaults - keep the account for future login
+        print("✅ User logged out successfully")
+    }
+    
+    func deleteAccount() -> Bool {
+        // Clear all user data
+        currentUser = nil
+        isAuthenticated = false
+        
+        // Remove user from UserDefaults
         UserDefaults.standard.removeObject(forKey: userDefaultsKey)
+        
+        // Remove any progress data
+        UserDefaults.standard.removeObject(forKey: "unwindyoga_progress")
+        
+        print("✅ Account deleted successfully")
+        return true
     }
     
     func continueAsGuest() {
@@ -86,19 +110,59 @@ class AuthService: ObservableObject {
     // MARK: - Private Methods
     
     private func saveUser(_ user: User) {
-        if let encoded = try? JSONEncoder().encode(user) {
+        var allUsers = loadAllUsers() ?? []
+        
+        // Remove existing user with same email if exists
+        allUsers.removeAll { $0.email == user.email }
+        
+        // Add new user
+        allUsers.append(user)
+        
+        // Save all users
+        if let encoded = try? JSONEncoder().encode(allUsers) {
             UserDefaults.standard.set(encoded, forKey: userDefaultsKey)
         }
     }
     
-    @discardableResult
-    private func loadUser() -> User? {
-        if let savedUser = UserDefaults.standard.data(forKey: userDefaultsKey),
-           let user = try? JSONDecoder().decode(User.self, from: savedUser) {
-            currentUser = user
-            isAuthenticated = true
-            return user
+    private func loadCurrentUser() {
+        // Try to load as array first (new format)
+        if let data = UserDefaults.standard.data(forKey: userDefaultsKey) {
+            // Try to decode as array of users
+            if let users = try? JSONDecoder().decode([User].self, from: data), !users.isEmpty {
+                currentUser = users.first
+                isAuthenticated = true
+                return
+            }
+            
+            // Try to decode as single user (old format) and migrate
+            if let singleUser = try? JSONDecoder().decode(User.self, from: data) {
+                currentUser = singleUser
+                isAuthenticated = true
+                // Migrate to new format
+                saveUser(singleUser)
+                return
+            }
         }
-        return nil
+        
+        // No user found
+        currentUser = nil
+        isAuthenticated = false
+    }
+    
+    private func loadUser() -> User? {
+        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+              let users = try? JSONDecoder().decode([User].self, from: data),
+              let firstUser = users.first else {
+            return nil
+        }
+        return firstUser
+    }
+    
+    private func loadAllUsers() -> [User]? {
+        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+              let users = try? JSONDecoder().decode([User].self, from: data) else {
+            return []
+        }
+        return users
     }
 }

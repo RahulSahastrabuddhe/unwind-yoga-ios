@@ -17,6 +17,8 @@ class OAuthService: NSObject, ObservableObject {
     func signInWithApple(completion: @escaping (Result<(email: String, name: String), Error>) -> Void) {
         isAuthenticating = true
         
+        print("🍎 Starting Apple Sign-In...")
+        
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -32,6 +34,8 @@ class OAuthService: NSObject, ObservableObject {
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.presentationContextProvider = self
+        
+        print("🍎 Performing Apple Sign-In request...")
         controller.performRequests()
     }
     
@@ -59,6 +63,8 @@ class OAuthService: NSObject, ObservableObject {
 
 extension OAuthService: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        print("🍎 Apple Sign-In authorization received")
+        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             // Handle email - Apple may not provide email if user hides it
             var email: String
@@ -77,29 +83,40 @@ extension OAuthService: ASAuthorizationControllerDelegate {
             
             print("✅ Apple Sign-In successful: \(email)")
             appleSignInCompletion?(.success((email: email, name: finalName)))
+        } else {
+            print("❌ Unexpected credential type received")
+            appleSignInCompletion?(.failure(OAuthError.failed("Unexpected credential type")))
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("❌ Apple Sign-In failed: \(error.localizedDescription)")
+        print("❌ Error details: \(error)")
         
         // Handle specific Apple Sign-In errors
         if let authError = error as? ASAuthorizationError {
             switch authError.code {
             case .canceled:
+                print("🍎 User cancelled Apple Sign-In")
                 appleSignInCompletion?(.failure(OAuthError.cancelled))
             case .failed:
+                print("🍎 Apple Sign-In failed")
                 appleSignInCompletion?(.failure(OAuthError.failed("Apple Sign-In failed. Please try again.")))
             case .invalidResponse:
+                print("🍎 Invalid response from Apple")
                 appleSignInCompletion?(.failure(OAuthError.failed("Invalid response from Apple.")))
             case .notHandled:
+                print("🍎 Apple Sign-In not handled")
                 appleSignInCompletion?(.failure(OAuthError.failed("Apple Sign-In not handled.")))
             case .unknown:
+                print("🍎 Unknown Apple Sign-In error")
                 appleSignInCompletion?(.failure(OAuthError.failed("Unknown error occurred.")))
             @unknown default:
+                print("🍎 Unhandled Apple Sign-In error")
                 appleSignInCompletion?(.failure(error))
             }
         } else {
+            print("🍎 Non-Apple Sign-In error: \(error)")
             appleSignInCompletion?(.failure(error))
         }
     }
@@ -109,12 +126,20 @@ extension OAuthService: ASAuthorizationControllerDelegate {
 
 extension OAuthService: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        // Return the key window for presentation
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else {
-            fatalError("No window available for Apple Sign-In presentation")
+        // Get the key window safely
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            return window
         }
-        return window
+        
+        // Fallback: Create a new window if needed
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            return window
+        }
+        
+        // Last resort: Use the main window
+        return UIApplication.shared.windows.first ?? UIWindow()
     }
 }
 

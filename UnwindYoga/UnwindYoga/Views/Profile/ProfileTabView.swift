@@ -11,6 +11,7 @@ struct ProfileTabView: View {
     @EnvironmentObject var authService: AuthService
     @StateObject private var progressService = ProgressService()
     @State private var showLogoutAlert = false
+    @State private var showDeleteAccountAlert = false
     
     var body: some View {
         NavigationStack {
@@ -115,6 +116,16 @@ struct ProfileTabView: View {
                                 SettingsRow(icon: "doc.text", title: "Terms of Use")
                             }
                             .buttonStyle(PlainButtonStyle())
+                            
+                            Divider()
+                                .padding(.leading, 60)
+                            
+                            Button(action: {
+                                showDeleteAccountAlert = true
+                            }) {
+                                SettingsRow(icon: "trash.fill", title: "Delete Account", isDestructive: true)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         .background(Color.white)
                         .cornerRadius(Theme.CornerRadius.large)
@@ -146,6 +157,16 @@ struct ProfileTabView: View {
                 }
             } message: {
                 Text("Are you sure you want to logout?")
+            }
+            .alert("Delete Account", isPresented: $showDeleteAccountAlert) {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete", role: .destructive) {
+                    if authService.deleteAccount() {
+                        // Account deleted, user will be logged out automatically
+                    }
+                }
+            } message: {
+                Text("Are you sure you want to delete your account? This action cannot be undone and will permanently delete all your data including progress and settings.")
             }
         }
     }

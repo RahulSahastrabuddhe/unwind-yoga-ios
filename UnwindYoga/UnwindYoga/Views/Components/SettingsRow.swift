@@ -3,23 +3,32 @@ import SwiftUI
 struct SettingsRow: View {
     let icon: String
     let title: String
+    let isDestructive: Bool
+    
+    init(icon: String, title: String, isDestructive: Bool = false) {
+        self.icon = icon
+        self.title = title
+        self.isDestructive = isDestructive
+    }
     
     var body: some View {
         HStack(spacing: Theme.Spacing.md) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundColor(Theme.Colors.primary)
+                .foregroundColor(isDestructive ? .red : Theme.Colors.primary)
                 .frame(width: 24)
             
             Text(title)
                 .font(Theme.Typography.body)
-                .foregroundColor(Theme.Colors.textPrimary)
+                .foregroundColor(isDestructive ? .red : Theme.Colors.textPrimary)
             
             Spacer()
             
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(Theme.Colors.textSecondary)
+            if !isDestructive {
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(Theme.Colors.textSecondary)
+            }
         }
         .padding(.vertical, Theme.Spacing.md)
         .padding(.horizontal, Theme.Spacing.lg)
